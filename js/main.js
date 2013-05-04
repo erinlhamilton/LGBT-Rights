@@ -1,7 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Title:           LGBT Civil Rights History
 // Source Files:    d3.v3.min.js (Data Driven Documents JavaScript library V3),
-// 					index.html, style.css, map.js, timeline.js, & chart.js
+// 			topojson.js, queue.js, index.html, style.css, map.js, 
+//			timeline.js, & chart.js				
 //
 // Author:          Erin Hamilton
 // Email:           erin@erinhamilton.me
@@ -10,12 +11,15 @@
 // Author:          Vanessa Knoppke-Wetzel
 // Email:           run.for.funner@gmail.com
 //
-// Description:     (Succint description of the purpose of this file here)
+// Last Updated:    May 1, 2013
+//
+// Description:     Main JavaScript file of page. Loads major features on load.
 //                   
 // Credits:          (list anyone who helped you write your program)
 //////////////////////////// 80 columns wide //////////////////////////////////
 
 /* Global Variables */
+
 
 /**
  * (Write a succinct description of this method here.  If necessary,
@@ -26,3 +30,29 @@
  * @param (parameter name) (Do the same for each additional parameter)
  * @return (description of the return value)
  */
+
+
+/**
+ * Called by window onload at bottom of script. Loads major code.
+ */
+function initialize(){
+	//fetchData();
+}
+
+
+/**
+ * Fetches the JSON object and loads it asynchronously for use.
+ */
+function fetchData(){
+	
+}
+
+
+/**
+ * Load the JS code after page has loaded. Calls initialize function at top.
+ */
+window.onload = initialize();
+
+
+
+
