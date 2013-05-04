@@ -19,7 +19,7 @@
 //////////////////////////// 80 columns wide //////////////////////////////////
 
 /* Global Variables */
-
+var marriage, employment, hateCrime;
 
 /**
  * (Write a succinct description of this method here.  If necessary,
@@ -36,7 +36,7 @@
  * Called by window onload at bottom of script. Loads major code.
  */
 function initialize(){
-	//fetchData();
+	fetchData();
 }
 
 
@@ -44,7 +44,17 @@ function initialize(){
  * Fetches the JSON object and loads it asynchronously for use.
  */
 function fetchData(){
-	
+	d3.json("data/Index.json", function(error, Index){
+		
+		//create object for each index
+		marriage = Index.Marriage;
+		employment = Index.Employment;
+		hateCrime = Index.HateCrime;
+		
+		console.log(marriage[2009].AK);
+		console.log(employment[2009].AK);
+		console.log(hateCrime[2009].AK);
+	});
 }
 
 
