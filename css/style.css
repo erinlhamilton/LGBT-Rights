@@ -20,9 +20,39 @@ display: block;
 	position: relative;
 	width: 960px;
 	margin: 0 auto;
-	background-color: #000;
 }
 
-#header{
+#header h1{
 
 }
+
+#header p{
+
+}
+
+#map-container{
+	width: 500px;
+}
+
+.states{
+	fill: #888888;
+	stroke: #ccc;
+	stroke-width: 1px;
+}
+
+#timeline{
+	width: 940px;
+}
+
+ .chart {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+  }
+
+  .axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+  
+ 
