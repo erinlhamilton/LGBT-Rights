@@ -17,8 +17,8 @@ display: block;
 
 
 #container{
-	position: relative;
 	width: 960px;
+	position: absolute;
 	margin: 0 auto;
 }
 
@@ -30,23 +30,76 @@ display: block;
 
 }
 
+#chart{
+	width: 960px
+}
+
 #map-container{
 	width: 500px;
+	position: relative;
+	float: left;
 }
 
 .states{
 	fill: #888888;
 	stroke: #ccc;
 	stroke-width: 1px;
+	cursor: hand; 
+	cursor: pointer; 
+}
+
+#legend{
+	width: 400px;
+	position: relative;
+	float: right;
 }
 
 #timeline{
-	width: 940px;
+	width: 960px;
 }
+
+.infolabel {
+	position: fixed;
+	width: 175px;
+	color: #000;
+	background-color: #fff;
+	border: solid thin #000;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	padding: 5px; 
+	opacity: 1;
+	
+}
+.infolabel h1 {
+	font-size: 14pt;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	line-height: 1em;
+}
+
+.infolabel h2 {
+	font-size: 12pt;
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+	line-height: 1em;
+}
+
+.infolabel b {
+	font-size: 13pt;
+	clear:both;
+} 
 
  .chart {
     font-family: Arial, sans-serif;
     font-size: 10px;
+  }
+  
+  .cell{
+	fill: #888888;
+		-moz-border-radius: 15px;
+	border-radius: 15px;
   }
 
   .axis path, .axis line {
@@ -54,5 +107,10 @@ display: block;
     stroke: #000;
     shape-rendering: crispEdges;
   }
+  
+  g.major.tick{
+	cursor: hand; 
+	cursor: pointer; 
+}
   
  

@@ -14,20 +14,19 @@
  *
  * @param: data is the years global array
  */
- function createTimeline(data){
- 	
-	
+ function createTimeline(index, data){
+ 
 	var margin = {top: 40, right: 40, bottom: 40, left:40},
-		height = 200,
+		height = 100,
 		width = 900;
 	
 	var x = d3.time.scale()
-		.domain([new Date(data[0].year), d3.time.year.offset(new Date(data[data.length - 1].year), 1)])
+		.domain([new Date(data[0]), d3.time.year.offset(new Date(data[data.length - 1]), 1)])
 		.rangeRound([0, width - margin.left - margin.right]);
 	
 	var xAxis = d3.svg.axis()
 		.scale(x)
-		.orient('bottom')
+		.orient('top')
 		.ticks(d3.time.years, 1)
 		.tickFormat(d3.time.format('%y'))
 		.tickSize(5)
@@ -53,24 +52,25 @@
 			d3.select(this) //select the current axis container element;
 			.on("mouseover", function(){ //click listener
 				d3.select(this)
-				.attr("fill", "white");
+				.attr("fill", "#FFFF00");
 			})
 			.on("mouseout", function(){ //click listener
 				d3.select(this)
 					.attr("fill", "black");
 			})
 			.on("click", function(){ //click listener
-				console.log(this.id);
-				sequence(this, data)
+				year = d.getFullYear();
+				sequence(year, index)
 			});
 		});
 		
  }
  
- function sequence(axis, data){
- 
-	console.log(axis.id);
- 
+ function sequence(year, data){
+	d3.selectAll(".states") //select every province
+			.style("fill", function(d) { //color enumeration units
+				return colorMap(data, d.properties.ST, year); //->
+			});
  }
  
  

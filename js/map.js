@@ -2,7 +2,8 @@
 // Main Class File:   main.js
 // File:              map.js
 //
-// Author:           (your name and email address)
+// Author:          Vanessa Knoppke-Wetzel
+// Author:          Erin Hamilton
 //
 // Description:     (Succint description of this file here)
 //                   
@@ -15,16 +16,15 @@
  * @param: Index is the Index.json object containing index keys
  */
 function setMap(usa, Index){
-
-	var width = 500;
-	var height = 300;
+	var width = 600;
+	var height = 400;
 	
 	var map = d3.select("#map-container").append("svg")
 		.attr("width",width)
 		.attr("height",height);
 		
 	var projection = d3.geo.albersUsa()
-		.scale(500)
+		.scale(600)
 		.translate([width / 2, height / 2]);
 
 	var path = d3.geo.path()
@@ -37,8 +37,22 @@ function setMap(usa, Index){
 			.attr("id", function(d) { 
 				return d.properties.ST })
 			.attr("d", path)
+			.on('mouseover', function() {
+                    d3.select(this)
+                        .style('fill', '#FFFF00');
+                 })
+			 .on('mouseout', function(d) {
+				d3.select(this)
+					.style('fill', function(d) {
+						return colorMap(Index, d.properties.ST, year)
+						})
+			 })
+			 .on('click', function(d) {
+				console.log(d3.select(this));
+				console.log(d);
+			 })
 			.style("fill", function(d) { 
-				return colorMap(Index, d.properties.ST) });// color the states
+				return colorMap(Index, d.properties.ST, year) });// color the states
 }
 
 /**
@@ -49,8 +63,8 @@ function setMap(usa, Index){
  * @param: st are each state from the usa.json object
  * @return: returns the fill color for the given st
  */
-function colorMap(Index, st){
+function colorMap(Index, st, year){
 	var index = Index[indexSelected];//currently selected index(global variable)
-	return indexTable[index[1975][st]];
+	return indexTable[index[year][st]];
 }
 
