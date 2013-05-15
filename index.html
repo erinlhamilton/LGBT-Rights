@@ -14,25 +14,57 @@
 	<div id="container">
 		<div id="header"><h1>50 Years of LGBT Legislation</h1><p>A look at state legislation restricting and extending lesbian, gay, bisexual, and transgender rights from 1963 to present.</p></div>
 		<div id="map-container"></div>
-		<div id="legend"></div>
-		<div id="timeline"></div>
+		<div id="time">
+			<h1>2013<h1>
+		</div>
+		<div id="controls">
+			<button id="back" role= "button" src="img/back.png" title="back" value="back" >back</button>
+			<button id="play" role="button" title="play" value="play">play</button>
+			<button id="stop" role="button" title="stop" value="stop">stop</button>
+			<button id="forward" role="button" title="forward" value="forward">forward</button>
+		</div>
+		<div id="accordion">
+			<div class="info-col">				
+				<dl>
+				  <dt id="marriage">Marriage</dt>
+				  <dd> <div id="hex"></div>blurb about the legend blurb blrb</dd>
+				  <dt id="adoption">Adoption</dt>
+				  <dd> <div id="hex2"></div>blurb about the legend blurb blrb</dd>
+				  <dt id="housing">Housing</dt>
+				  <dd> <div id="hex3"> sed do eiusmod tempor commodo consequat.</dd>
+				  <dt id="hate_crimes">Hate Crimes</dt>
+				  <dd>Consectetur adipisicing elit, <!-- <div id="hex4"> -->  sed do eiusmod tempor incididunt ut lcommodo consequat.</dd>
+				  <dt id="hospital">Hospital Visitation</dt>
+				  <dd>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna 
+		aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
+		commodo consequat.</dd>
+				  <dt id="employment">Employment</dt>
+				  <dd>Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna 
+		aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
+		commodo consequat.</dd>
+				</dl>
+			</div>
+		</div>
 		<div id="chart"></div>
-		<div id="infopanel"></div>
-		<div id="footer"><h2>Published: May 17, 2013</h2><p>Credits: Erin Hamilton, Rashauna Mead, and Vanessa Knoppke-Wetzel</p></div>
+		<div id="timeline"></div>
+		<div id="matrix">
+			<h1>The Longevity of Laws</h1></div>
+		<div id="footer"><h1>About This Map.</h1><h2>Published: May 17, 2013</h2><p>Credits: Erin Hamilton, Rashauna Mead, and Vanessa Knoppke-Wetzel</p></div>
 	</div>
 
 	<!--JavaScript Libraries-->
-<!-- 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-	<script src="http://d3js.org/topojson.v1.min.js"></script> -->
 	<script src="js/jquery.min.v1.9.1.js"></script>
 	<script src="js/d3.v3.min.js"></script>
 	<script src="js/topojson.js"></script>
 	<script src="js/queue.min.js"></script>
+	<script src="js/jquery-timer.js"></script>
 	
 	
 	<!--Main Scripts-->
 	<script src="js/map.js"></script>
-	<script src="js/legend.js"></script>
+	<script src="js/accordian.js"></script>
+	<script src="js/hex.js"></script>
+	<!-- <script src="js/legend.js"></script> -->
 	<script src="js/timeline.js"></script>
 	<script src="js/chart.js"></script>
 	<script src="js/trulia.js"></script>

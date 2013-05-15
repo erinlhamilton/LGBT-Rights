@@ -22,6 +22,8 @@
  */
  function createGrid(Index){
  
+	matrixAxes();
+ 
 	var width = 900,
 		height = 900,
 		gridWidth = 800,
@@ -30,15 +32,22 @@
 		
 	var calData = gridData(gridWidth, gridHeight, square, Index);//call data
 	
-    var grid = d3.select("#chart").append("svg")
+    var grid = d3.select("#matrix").append("svg")
                     .attr("width", width)
                     .attr("height", height)
-                    .attr("class", "chart");
+                    .attr("class", "matrix");
 
     var row = grid.selectAll(".row")
                   .data(calData)
                 .enter().append("svg:g")
                   .attr("class", "row");
+		
+		 row.append("text")
+		  .attr("x", -6)
+		  .attr("y", 2)
+		  .attr("dy", ".32em")
+		  .attr("text-anchor", "start")
+		  .text(function(d) { return d.ST; });
 
     var col = row.selectAll(".cell")
                  .data(function (d) { return d; })
@@ -61,6 +70,9 @@
 						hoverOutCell(d);
                  })
                  .on("mousemove", moveLabel)
+				 .on("click", function(d){
+					console.log(d);
+				 })
                  .style("fill", function(d) {
                     return d.color; 
                  })
@@ -118,6 +130,77 @@
     }
     return data;
 }
+
+function matrixAxes(){
+ 
+	var margin = {top: 40, right: 40, bottom: 0, left:40},
+		height = 100,
+		width = 900;
+	
+	var x = d3.time.scale()
+		.domain([new Date(years[0]), d3.time.year.offset(new Date(years[years.length - 1]), 1)])
+		.rangeRound([0, width - margin.left - margin.right]);
+	
+	var xAxis = d3.svg.axis()
+		.scale(x)
+		.orient('top')
+		.ticks(d3.time.years, 1)
+		.tickFormat(d3.time.format('%y'))
+		.tickSize(0)
+		.tickPadding(8);
+		
+	var timeline = d3.select('#matrix').append('svg')
+		.attr('class', 'xMatrix')
+		.attr('width', width)
+		.attr('height', height)
+		.append('g')
+		.attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+
+	timeline.selectAll('.xMatrix')
+		.data(years);
+
+	timeline.append('g')
+		.attr('class', 'x axis')
+		.attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
+		.call(xAxis);
+		
+ }
+ 
+ //y-axis states
+ // function matrixAxes(){
+ 
+	// var margin = {top: 40, right: 40, bottom: 0, left:40},
+		// height = 100,
+		// width = 900;
+	
+	// var x = d3.time.scale()
+		// .domain([new Date(years[0]), d3.time.year.offset(new Date(years[years.length - 1]), 1)])
+		// .rangeRound([0, width - margin.left - margin.right]);
+	
+	// var yAxis = d3.svg.axis()
+		// .scale(x)
+		// .orient('left')
+		// .ticks(d3.time.years, 1)
+		// .tickFormat(d3.format('%y'))
+		// .tickSize(0)
+		// .tickPadding(8);
+		
+	// var timeline = d3.select('#matrix').append('svg')
+		// .attr('class', 'xMatrix')
+		// .attr('width', width)
+		// .attr('height', height)
+		// .append('g')
+		// .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+
+	// timeline.selectAll('.xMatrix')
+		// .data(years);
+
+	// timeline.append('g')
+		// .attr('class', 'x axis')
+		// .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
+		// .call(xAxis);
+		
+ // }
 
  /**
  * Creates an infolabel on mouseover.

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Main Class File:   main.js
+// Main Class File:   main.js, jquery-timer.js
 // File:              timeline.js
 //
 // Author:           Erin Hamilton
@@ -9,6 +9,7 @@
 // Credits:          (list anyone who helped you write your program)
 //////////////////////////// 80 columns wide //////////////////////////////////
 
+var timeInterval = 1000; //intial animation speed in miliseconds
 /**
  * Creates the x-axis for each chart view which also acts as the timeline
  *
@@ -16,9 +17,9 @@
  */
  function createTimeline(index, data){
  
-	var margin = {top: 40, right: 40, bottom: 40, left:40},
-		height = 100,
-		width = 900;
+	var margin = {top: 0, right: 40, bottom: 40, left:40},
+		height = 35,
+		width = 950;
 	
 	var x = d3.time.scale()
 		.domain([new Date(data[0]), d3.time.year.offset(new Date(data[data.length - 1]), 1)])
@@ -26,10 +27,10 @@
 	
 	var xAxis = d3.svg.axis()
 		.scale(x)
-		.orient('top')
+		.orient('bottom')
 		.ticks(d3.time.years, 1)
 		.tickFormat(d3.time.format('%y'))
-		.tickSize(5)
+		.tickSize(0)
 		.tickPadding(8);
 		
 	var timeline = d3.select('#timeline').append('svg')
@@ -65,12 +66,80 @@
 		});
 		
  }
- 
- function sequence(year, data){
+
+ function sequence(yr){
 	d3.selectAll(".states") //select every province
 			.style("fill", function(d) { //color enumeration units
-				return colorMap(data, d.properties.ST, year); //->
+				return colorMap(Index, d.properties.ST, yr); //->
 			});
+	var yearTitle = d3.select("#time") 
+		.select("h1")
+		.html(yr);
+		
+	year = yr;
  }
+ 
+ /*The section is creating the jquery timer and animating the map.*/
+	//function used to animate the proportional symbols
+function animateMap(Index){
+	if (timestamp < years.length-1) {
+		timestamp++;
+	}
+	else{
+		timestamp = 0;
+	}
+	sequence(years[timestamp], Index);
+	// setSymbol();
+	// $( "#slider" ).slider( "value", timestamp);//update what value the slider is on
+	// tooltip.text(timestamp);//update the tooltip date
+	// $("#retrieveYear").val(timestamp);
+	// updateText();
+}
+ 
+$( "#back" ).click(function(Index){
+		timer.stop();
+		if(timestamp == 0){
+			timestamp = 50;
+		}else{
+			timestamp --;
+		}
+		sequence(years[timestamp]);
+		$("#stop").hide();
+		$("#play").show();	
+});
+
+$("#play").click(function(){
+	timer.play();
+	//sequence(Index);
+	$("#play").hide();
+	$("#stop").show();
+});
+	
+ // //stop button resets the timestamp and the markers
+$( "#stop" ).click(function(){
+	timer.stop();
+	$("#stop").hide();
+	$("#play").show();
+});
+
+$( "#forward" ).click(function(){
+	timer.stop();
+	if(timestamp == 50){
+		timestamp = 0;
+	}else{
+		timestamp ++;
+	}
+	sequence(years[timestamp]);
+	$("#stop").hide();
+	$("#play").show();
+});
+
+	// //create a jquery timer using a jquery timer plugin. 
+timer = $.timer(function(Index) {
+	//call animate map function
+		animateMap(Index)
+	});
+
+timer.set({ time : 1000, autostart : false });//initiate the timer
  
  

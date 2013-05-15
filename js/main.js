@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Title:           LGBT Civil Rights History
 // Source Files:    d3.v3.min.js (Data Driven Documents JavaScript library V3),
-// 					topojson.js, queue.min.js, index.html, style.css, map.js, 
-//					timeline.js, trulia.js, & chart.js				
+//					jquery.min.v1.9.1.js, topojson.js, queue.min.js, index.html, 
+//                  style.css, map.js, timeline.js, trulia.js, & chart.js				
 //
 // Author:          Erin Hamilton
 // Author:          Rashauna Mead
@@ -19,65 +19,61 @@
 
 /** Global Variables */
 var indexArray = ["Adoption", "Employment", "HateCrime", "Hospital", "Housing", "Marriage"];
-var indexSelected = indexArray[5];
+var indexSelected = indexArray[1];
+//var timer; //timer for animation
+var Index;
+var timestamp = 0;
 
 /**Key values in Index JSON, which contain colors used to fill states*/
 var indexTable = {
-	/*Adoption*/
-	"SP": 0, //single parent SPN, SPY (no, yes)
-	"SSC": 0, //same sex couple, SSCY, SSCN (yes, no)
-	"NYD": 0, //not yet determined by court, aka NO EXPLICIT PROHIBITION 
-	"SPY": 0, //single parent yes
-	"SPYSSCN": 0, //single parent yes, same sex couple NO
-	"SPYSCCY": 0, //single parent yes, same sex couple yes
-	"SPYSSPY": 0, //spy, + ssp yes
-	"SPYSSPN": 0, //sing par yes, SSP no
-	"LR": 0, //limited recognition
-	"SPYSSPY": 0, //single parent yes, same sex partner yes 
-	"SSCLR": 0, //limited recognition same sex couple adoption
-	"YSSPLR": 0, //sing parent yes, same sex partner limited recognition
-	"YYSSPLR": 0, //sing parent yes, same sex couple yes, sspartner limited recog.
-	"YYY": 0, //singe parent yes, same sex couple yes, same sex partner yes
-	"SPYNN": 0, //single parent yes, same sex couple no, same sex partner no 
-	"SSP": 0, //same sex partner SSPY, SSPN (yes, no)
-	"SJ": 0, //in some jurisdictions 
+	/*Adoption*/ //8
+	"YYY": "#bf9966", //Y, Y, Y
+	"SPYSSCY": "#dfb377", //Y, Y, na (YY)
+	"SPYSSPY": "#ffcc88", //Y, na, Y (YY)
+	"SSCLR": "#ffcc88", //S<--SPY..limited recognition same sex couple adoption (LR) Y LR na
+	"YSSPLR": "#ffcc88", //Ssamecolor Y na LR
+	"YYSSPLR": "#ffe699", //Ssame color Y Y LR
+	"SPY": "#ff6073", //Y, na, na/// basically, NYD
+	"SPYSSCN": "#ee5566", //Y, N, na (YN)
+	"SPYSSPN": "#d04a59", //Y, na, N (YN)
+	"SPYNN": "#b3404d", //Y, N, N
 	
-	/*Employment*/
-	"SOP": 0, //Same Sex Orientation Employment Protection
-	"SOPGIP": 0, //Gender Identity Employment Protection + Same Sex Protection
+	/*Employment*/ //2
+	"SOP": "#ffcc88", //Same Sex Orientation Employment Protection
+	"SOPGIP": "#bf9966" , //Gender Identity Employment Protection + Same Sex Protection
 	
-	/*Hate Crimes*/
-	"SO": 0, //Same Sex Orientation Hate Crime Law
-	"GI": 0, //Gender Identity Hate Crime Law
-	"SOGI": 0, //Same Sex Orientation & Gender Idenity Hate Crime Laws
-	"NHCL": 0, //No Hate Crime Laws At All For the State
-	"NSG": 0, //No Sexual Orientation or Gender Idenity Hate Crime Laws
+	/*Hate Crimes*/ //4
+	"SO": "#c3a7a7", //Same Sex Orientation Hate Crime Law
+	"GI": "#c3a7a7", //Gender Identity Hate Crime Law
+	"SOGI": "#947e7e", //Same Sex Orientation & Gender Idenity Hate Crime Laws
+	"NHCL": "#5f9e20", //No Hate Crime Laws At All For the State
+	"NSG": "#7dd12a", //No Sexual Orientation or Gender Idenity Hate Crime Laws
+
+	/*Hospital Visitation*/ //3
+	"HLI": "#ffd38d", //Law Inclusive of same-sex couples for medical decisions
+	"HLR": "#ddb176", //Limited recognition of same-sex couples for medical decisions
+	"HLS": "#b38f5f", //Same-sex couples treated as legal strangers for medical decisions
 	
-	/*Hospital Visitation*/
-	"HLI": 3.0, //Law Inclusive of same-sex couples for medical decisions
-	"HLR": 1.5, //Limited recognition of same-sex couples for medical decisions
-	"HLS": 0, //Same-sex couples treated as legal strangers for medical decisions
+	/*Housing*/ //3
+	"BSO": "#ffd38d", //Bans ONLY sexual orientation housing discrimination
+	"BID": "#ddb176", //Bans ONLY identity/expression housing discrimination
+	"BB": "#b38f5f", //bans sex orientation disc AND bans ID/ex discrim
 	
-	/*Housing*/
-	"BSO": 0, //Bans ONLY sexual orientation housing discrimination
-	"BID": 0, //Bans ONLY identity/expression housing discrimination
-	"BB": 0, //bans sex orientation disc AND bans ID/ex discrim
-	
-	/*Marriage*/
-	"ML": '#034E7B', //Marriage Legal
-	"CUL": '#0570B0', //Civil Unions Legal
-	"DPL": '#3690C0', //Domestic Partnerships Legal
-	"LBCUL": '#74A9CF', //Legislative Ban on Marriage, Civil Unions Legal
-	"CBCUL": '#A6BDDB', //Constitutional Ban on Marriage, Civil Unions Legal
-	"LBDPL": '#D0D1E6', //Legislative Ban on Marriage, Domestic Partnership Legal
-	"CBDPL": '#ECE7F2', //Constitutional Ban on Marriage, Domestic Partnership Legal
-	"NL": '#888888', //No Law Banning or Approving Marriage
-	"NEB": '#FDD49E', //No Explicit Ban, but rights denied by court ruling
-	"LBM": '#FDBB84', //Legislative ban on marriage (statute)
-	"LBO": '#FC8D59', //Legislative ban on marriage and other relationship recognition (statute)
-	"CBM": '#EF6548', //Constitutional ban on marriage
-	"CBO": '#D7301F', //Constitutional ban on marriage and other relationship recognition
-	"LBCBO": '#990000' //Legislative and Constitutional Ban on All Relationship Recognition
+	/*Marriage*/ //14
+	"ML": "#a48357", //Marriage Legal
+	"CUL": "#b69261", //Civil Unions Legal
+	"DPL": "#c8a06b", //Domestic Partnerships Legal
+	"LBCUL": "#dbaf75", //Legislative Ban on Marriage, Civil Unions Legal
+	"CBCUL": "#edbd7e", //Constitutional Ban on Marriage, Civil Unions Legal
+	"LBDPL": "#ffcc88", //Legislative Ban on Marriage, Domestic Partnership Legal
+	"CBDPL": "#ffdb92", //Constitutional Ban on Marriage, Domestic Partnership Legal
+	"NL": "#ff5b6d", //No Law Banning or Approving Marriage
+	"NEB": "#ee5566", //No Explicit Ban, but rights denied by court ruling
+	"LBM": "#dd4f5f", //Legislative ban on marriage (statute)
+	"LBO": "#cc4957", //Legislative ban on marriage and other relationship recognition (statute)
+	"CBM": "#bb4350", //Constitutional ban on marriage
+	"CBO": "#aa3d49", //Constitutional ban on marriage and other relationship recognition
+	"LBCBO": "##993742" //Legislative and Constitutional Ban on All Relationship Recognition
 };
 	
 var years = ['1963', '1964', '1965', '1966', '1967', '1968', '1969', '1970', 
@@ -98,6 +94,7 @@ var state = ['AL', 'AK', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', '
  * Called by window onload at bottom of script.
  */
 function initialize(){
+	$("#stop").hide();
 	fetchData();
 }
 
@@ -116,12 +113,23 @@ function fetchData(){
 /**
 *Once JSON data is loaded, use this function to call other functions
 */
-function ready(error, Index, usa){
+function ready(error, _Index, usa){
+	Index = _Index;
+	console.log(Index.Employment);
 	setMap(usa, Index);// create the map (function located in map.js)
-	setLegend(Index);
+	onClickMenu(Index, usa);
 	createTimeline(Index, years);
 	createGrid(Index);
+	createChart(Index);
+	$('#marriage').trigger('click');
 }
+
+//to get an svg object to move to front, call this function
+// d3.selection.prototype.moveToFront = function() {
+  // return this.each(function(){
+    // this.parentNode.appendChild(this);
+  // });
+// };
 
 function lawCodeLabel(code){
 
@@ -281,7 +289,9 @@ function moveLabel() {
 /**
  * Load the JS code after page has loaded. Calls initialize function at top.
  */
-window.onload = initialize();
+ 
+ //window.onload = initialize();
+$(document).ready(initialize());
 
 
 
