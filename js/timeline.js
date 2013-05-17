@@ -4,7 +4,11 @@
 //
 // Author:           Erin Hamilton
 //
-// Description:     (Succint description of this file here)
+// Description:     Creates the x-axis for histogram bar chart also used to
+//                  control the date displayed on the page and change the year
+//                  shown on the map. Also creates the jquery timer object
+//                  as well as the controls for the timer to update the currently
+//                  displayed year.
 //                   
 // Credits:          (list anyone who helped you write your program)
 //////////////////////////// 80 columns wide //////////////////////////////////
@@ -13,7 +17,8 @@ var timeInterval = 1000; //intial animation speed in miliseconds
 /**
  * Creates the x-axis for each chart view which also acts as the timeline
  *
- * @param: data is the years global array
+ * @data: the years global array
+ * @index: index.json main object
  */
  function createTimeline(index, data){
  
@@ -67,11 +72,20 @@ var timeInterval = 1000; //intial animation speed in miliseconds
 		
  }
 
+ /**
+ * 	updates the year displayed on the map based on currently selected year.
+ *  Also updates the year displayed above the map and changes the year
+ * global variable to currently selected year.
+ *
+ * @yr: Currently selected year
+ */
  function sequence(yr){
+ 
 	d3.selectAll(".states") //select every province
 			.style("fill", function(d) { //color enumeration units
 				return colorMap(Index, d.properties.ST, yr); //->
 			});
+			
 	var yearTitle = d3.select("#time") 
 		.select("h1")
 		.html(yr);
@@ -79,9 +93,13 @@ var timeInterval = 1000; //intial animation speed in miliseconds
 	year = yr;
  }
  
- /*The section is creating the jquery timer and animating the map.*/
-	//function used to animate the proportional symbols
-function animateMap(Index){
+ /**
+ * 	Called by the jquery timer. Gets ahold of the currently selected year
+ *  and determines if it is less than 2014 or greater than 1964 and updates
+ *  the timestamp accordingly. Then calls sequence to update the map.
+ * 
+ */
+function animateMap(){
 	if (timestamp < years.length-1) {
 		timestamp++;
 	}
@@ -89,13 +107,14 @@ function animateMap(Index){
 		timestamp = 0;
 	}
 	sequence(years[timestamp], Index);
-	// setSymbol();
-	// $( "#slider" ).slider( "value", timestamp);//update what value the slider is on
-	// tooltip.text(timestamp);//update the tooltip date
-	// $("#retrieveYear").val(timestamp);
-	// updateText();
 }
  
+ /**
+ * 	Below are the time control for the years and timer, located directly
+ *  above the map. They update the timestamp which controls the currently
+ *  selected year and call sequence to update the map.
+ * 
+ */
 $( "#back" ).click(function(Index){
 		timer.stop();
 		if(timestamp == 0){
@@ -110,12 +129,10 @@ $( "#back" ).click(function(Index){
 
 $("#play").click(function(){
 	timer.play();
-	//sequence(Index);
 	$("#play").hide();
 	$("#stop").show();
 });
-	
- // //stop button resets the timestamp and the markers
+
 $( "#stop" ).click(function(){
 	timer.stop();
 	$("#stop").hide();
@@ -134,12 +151,16 @@ $( "#forward" ).click(function(){
 	$("#play").show();
 });
 
-	// //create a jquery timer using a jquery timer plugin. 
+ /**
+ * 	Create a timer object and set the function to be called on play to 
+ *  animateMap. 
+ * 
+ */
+
 timer = $.timer(function(Index) {
-	//call animate map function
-		animateMap(Index)
+		animateMap()
 	});
 
-timer.set({ time : 1000, autostart : false });//initiate the timer
+timer.set({ time : timeInterval, autostart : false });
  
  

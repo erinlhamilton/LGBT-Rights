@@ -1,10 +1,11 @@
 body
 {
-/* font-family: 'cartogothic reg'; */
 margin:0;
 padding:0;
 text-align:center;
 background-color:#fff;
+font-family:Georgia, "Times New Roman", Times, serif;
+color:#313030;
 }
 
 footer, header
@@ -12,26 +13,47 @@ footer, header
 display: block;
 }
 
-
 #container{
 	width: 960px;
 	position: relative;
-	text-align: center;
+	text-align: left;
 	margin: auto;
 	
 }
 
+#header {
+	background:#F1F1F1;
+	margin: 0 0 0.2em 0; 
+	border-bottom:thin solid #D4D4D4;
+	padding:15px;
+	
+}
 #header h1{
 	font-size: 20pt;
 	text-align: left;
-	margin: 0;
+	margin-top: 0;
+	border-right:thin solid #D4D4D4;
+
+}
+h1.title{
+	width: 140px;
+	float:left;
+	position:relative;
 }
 
 #header p{
 	font-size: 15pt;
 	text-align: left;
-	margin: 0 0 0.2em 0; 
+	margin-bottom:0;
+	margin-top: 0;
+}
+
+.intro {
+	padding:10px;
+	background:#F1F1F1;
 	border-bottom:thin solid #D4D4D4;
+	text-align:center;
+		
 }
 
 #matrix{
@@ -79,17 +101,18 @@ display: block;
 
 #map-container{
 	width: 500px;
-	top: 40px;
-	position: absolute;
-	float: left;
+	top: 90px;
+	margin-left:460px;
+	position:absolute;
+	float: right;
+	clear:both;
 }
 
+
 .states{
-	fill: #888888;
-	stroke: #ccc;
+	fill: #F1F1F1;
+	stroke: #D4D4D4;
 	stroke-width: 1px;
-	cursor: hand; 
-	cursor: pointer; 
 }
 
 #legend{
@@ -133,20 +156,36 @@ display: block;
 	clear:both;
 } 
 
+.matrix{
+	padding: 0;
+	margin: 0;
+}
+
+.xMatrix {
+    font-size: 10px;
+	padding: 0;
+	margin: 0;
+  }
+
  .chart {
-    font-family: Arial, sans-serif;
     font-size: 10px;
 	padding: 0;
 	margin: 0;
   }
   
   .cell{
-	fill: #888888;
+	fill:#F1F1F1;
 		-moz-border-radius: 15px;
 	border-radius: 15px;
   }
 
   .axis path, .axis line {
+    fill: none;
+/*     stroke: #000;
+    shape-rendering: crispEdges; */
+  }
+  
+   .xYear path, .xYear line {
     fill: none;
 /*     stroke: #000;
     shape-rendering: crispEdges; */
@@ -160,17 +199,20 @@ display: block;
 #footer{
 	position: absolute;
 	top: 2000px;
+	width: 960;
 }
 
 
 #accordion{
-	float: right;
 	width: 400px;
 	overflow: hidden;
 	height: 100%;
-	position: relative;
+	position:relative;
 }
-
+#accordionLeft{
+	position:absolute;
+	float:left;
+}
 .info-col {
 	float: center;
 	width: 400px;
@@ -186,27 +228,25 @@ display: block;
 
 dt {
 	padding: 5px;
-	color: white;
-	border-bottom: 1px solid white;
-	border-right: 1px solid white;
-	#background: #656b60;
+	color: #313030;
+	border-bottom: thin solid #D4D4D4;
+	background: #D4D4D4;
 }
 
 dd {
 	position: absolute;
 	left: -9999px; 
 	top: -9999px; 
-	/* width: 255px;  */
 	width: 380px;
-	#background: #656b60; 
-	/* padding: 10px;  */
-	color: white; 
-	border-right: 1px solid white;
+	background: #ffff; 
+	padding: 10px; 
+	color: #313030; 
+	border-bottom: thin solid #D4D4D4;
+	
 }
 
 #hex{
-
-	float: center;
+	padding-right: 50px;
 }
 dd div{
 	width: 100%;
@@ -220,46 +260,46 @@ dd div{
 
 
 dt:nth-of-type(1) {
-background: #656b60;
+background: #F1F1F1;
 }
 
 dd:nth-of-type(1) {
- background: #656b60;
+ background: #F1F1F1;
  }
 
 dt:nth-of-type(2) {
-	background: #656b60;
+	background: #F1F1F1;
 }
 dd:nth-of-type(2) {
-	background: #656b60;
+	background: #F1F1F1;
 }
 
 dt:nth-of-type(3) {
-	background: #656b60;
+	background: #F1F1F1;
 }
 dd:nth-of-type(3) {
-	background: #656b60;
+	background: #F1F1F1;
 }
 
 dt:nth-of-type(4) {
-	background: #656b60;
+	background: #F1F1F1;
 }
 dd:nth-of-type(4) {
-	background: #656b60;
+	background: #F1F1F1;
 }
 
 dt:nth-of-type(5) {
-	background: #656b60;
+	background: #F1F1F1;
 }
 dd:nth-of-type(5) {
-	background: #656b60;
+	background: #F1F1F1;
 }
 
 dt:nth-of-type(6) {
-	background: #656b60;
+	background: #F1F1F1;
 }
 dd:nth-of-type(6) {
-	background: #656b60;
+	background: #F1F1F1;
 }
 
 .curCol {

@@ -1,23 +1,24 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Main Class File:   main.js
+// Main Class File:   main.js, topojson.js
 // File:              map.js
 //
 // Author:          Vanessa Knoppke-Wetzel
 // Author:          Erin Hamilton
 //
-// Description:     (Succint description of this file here)
+// Description:     Creates the map displayed at the top of the page. As well as
+//                  Interaction and coloring that goes along with the map.
 //                   
 // Credits:          (list anyone who helped you write your program)
 //////////////////////////// 80 columns wide //////////////////////////////////
 
 /**
  * setMap creates the map svg used to show changing laws by state over time
- * @param: usa is the usa.json object containing state geometry
- * @param: Index is the Index.json object containing index keys
+ * @usa:  the usa.json object containing state geometry
+ *
  */
 function setMap(usa){
 	var width = 600;
-	var height = 500;
+	var height = 350;
 	
 	var map = d3.select("#map-container").append("svg")
 		.attr("width",width)
@@ -40,7 +41,7 @@ function setMap(usa){
 			.on('mouseover', function(d) {
                     d3.select(this)
                         .style('fill', '#FFFF00');
-					hoverOnState(Index, d.properties);
+					hoverOnState(d.properties);
                  })
 			 .on('mouseout', function(d) {
 				d3.select(this)
@@ -60,30 +61,33 @@ function setMap(usa){
  * Accepts the Index.json and the current state selected from usa.json to add fill color
  * to the state based on the global variable indexTable located in main.js.
  * The .style function that calls this iterates over every state in usa.json.
- * @param: Index is the Index.json object containing index keys
- * @param: st are each state from the usa.json object
- * @return: returns the fill color for the given st
+ *
+ * @Index: the Index.json object containing index keys
+ * @st: each state from the usa.json object
+ * @return: the fill color for the given st
  */
 function colorMap(Index, st, year){
 	var index = Index[indexSelected];//currently selected index(global variable)
-	return indexTable[index[year][st]];
+	var colorVal = indexTable[index[year][st]];
+	return colorVal;
 }
 
  /**
- * Creates an infolabel on mouseover.
+ * Checks for currently selected index and creates a label for a infolabel on hover.
  *
- * @param: handle is the currently selected cell
+ * @handle: the currently selected cell
  */
-function hoverOnState(Index, handle){
+function hoverOnState(handle){
 	var index = Index[indexSelected];
 	var code = index[year][handle.ST]
 	var lawDescrip = lawCodeLabel(code);
 
 	var labelText = "<h1><i>" + handle.State + "</i></h1><br><b>" + year + "</b><br><h2>" + indexSelected + ":<br>" + lawDescrip + "</h2>";
-	var infolabel = d3.select("#map-container")
+	var infolabel = d3.select("#container")
 			.append("div")
 			.attr("class", "infolabel") //for styling label
-			.html(labelText); //add text
+			.html(labelText)
+			.moveToFront(); //add text
 }
 
  /**

@@ -42,32 +42,27 @@
                  .attr("width", function(d) { return d.width; })
                  .attr("height", function(d) { return d.height; })
                  .on('mouseover', function(d) {
-					 //console.log(state);
                     d3.select(this)
-                        .style('fill', '#FFFF00')
-						hoverOnChart(d)
+                        .style('fill', '#FFFF00');
+					hoverOnChart(d);
 						
                  })
                  .on('mouseout', function(d) {
                     d3.select(this)
                         .style('fill', function(d) {
 							return d.color; 
-							})
-							hoverOutCell(d);
+							});
+					hoverOutChart(d);
                  })
                  .on("mousemove", moveLabel)
 				 .on("click", function(d){
-					 console.log(d);
-					;
-					//value= 
-					;
-					
+					console.log(d);
 				 })
+				 .transition()
                  .style("fill", function(d) {
                     return d.color; 
                  })
-                 .style("stroke", '#fff')
-				 ;
+                 .style("stroke", '#fff');
 
 }
 
@@ -137,16 +132,13 @@
  * @param: handle is the currently selected cell
  */
 function hoverOnChart(handle){
-	// var code = "#" + handle.state;
-	// console.log(code);
-	// d3.selectAll(".states")
-		// .select("#" + handle.state)
-		// .style("fill", "#fff");
+	var map = d3.select("#" + handle.state)
+		.style("fill", "#FFFF00");
 
 	var lawDescrip = lawCodeLabel(handle.value);
 
 	var labelText = "<h1><i>" + handle.state + "</i></h1><br><b>" + handle.time + "</b><br><h2>" + indexSelected + ":<br>" + lawDescrip + "</h2>";
-	var infolabel = d3.select("body")
+	var infolabel = d3.select("#container")
 			.append("div")
 			.attr("class", "infolabel") //for styling label
 			.html(labelText); //add text
@@ -155,7 +147,11 @@ function hoverOnChart(handle){
  /**
  * Destroys infolabel on mouseout
  */
-function hoverOutCell(){
+function hoverOutChart(handle){
+	var map = d3.select("#" + handle.state)
+		.style("fill", function() {
+				return colorMap(Index, handle.state, year);
+			});
 	d3.select(".infolabel").remove(); //remove info label
 }
 /**

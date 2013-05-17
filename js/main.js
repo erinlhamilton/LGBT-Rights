@@ -19,10 +19,9 @@
 
 /** Global Variables */
 var indexArray = ["Adoption", "Employment", "HateCrime", "Hospital", "Housing", "Marriage"];
-var indexSelected = indexArray[1];
-//var timer; //timer for animation
-var Index;
-var timestamp = 0;
+var indexSelected = indexArray[5];
+var Index;//global Index.json variable.
+var timestamp = 50;//2013. The start year for years array. Used for timer and iterations.
 
 /**Key values in Index JSON, which contain colors used to fill states*/
 var indexTable = {
@@ -73,7 +72,7 @@ var indexTable = {
 	"LBO": "#cc4957", //Legislative ban on marriage and other relationship recognition (statute)
 	"CBM": "#bb4350", //Constitutional ban on marriage
 	"CBO": "#aa3d49", //Constitutional ban on marriage and other relationship recognition
-	"LBCBO": "##993742" //Legislative and Constitutional Ban on All Relationship Recognition
+	"LBCBO": "#993742", //Legislative and Constitutional Ban on All Relationship Recognition
 };
 	
 var years = ['1963', '1964', '1965', '1966', '1967', '1968', '1969', '1970', 
@@ -83,9 +82,9 @@ var years = ['1963', '1964', '1965', '1966', '1967', '1968', '1969', '1970',
 	'2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013'];
 
 //year to view on load	
-var year = years[0];
+var year = years[timestamp];
 	
-var state = ['AL', 'AK', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 
+var state = ['AL', 'AK', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 
 	'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 
 	'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 
 	'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'];
@@ -94,7 +93,7 @@ var state = ['AL', 'AK', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', '
  * Called by window onload at bottom of script.
  */
 function initialize(){
-	$("#stop").hide();
+	$("#stop").hide();//onload, hide the stop button.
 	fetchData();
 }
 
@@ -111,26 +110,36 @@ function fetchData(){
 }
 
 /**
-*Once JSON data is loaded, use this function to call other functions
+*	Once JSON data is loaded, use this function to call other functions
+*
+* @param:error, any errors that occur from queue
+* @param: _Index, the Index.json main object
+* @param: usa, the usa.json topojson for the map
 */
 function ready(error, _Index, usa){
 	Index = _Index;
-	console.log(Index.Employment);
-	setMap(usa, Index);// create the map (function located in map.js)
-	onClickMenu(Index, usa);
-	createTimeline(Index, years);
-	createGrid(Index);
-	createChart(Index);
-	$('#marriage').trigger('click');
+	setMap(usa, Index);//map.js
+	onClickMenu(Index, usa); //accordian.js and hex.js
+	createTimeline(Index, years);//timeline.js
+	createGrid(Index); //trulia.js
+	createChart(Index); //chart.js
+	$('#marriage').trigger('click');//trigger a click event after page loaded to display marriage
 }
 
-//to get an svg object to move to front, call this function
-// d3.selection.prototype.moveToFront = function() {
-  // return this.each(function(){
-    // this.parentNode.appendChild(this);
-  // });
-// };
+/**
+ * This bit of code makes the infowindow move in front of other objects, like the legend.
+ */
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+    this.parentNode.appendChild(this);
+  });
+};
 
+/**
+*Function of switch statements to display a description for the lawcodes.
+*
+* @param: code are the couple letter lawcodes that come fron Index.json
+*/
 function lawCodeLabel(code){
 
 	switch(code){
@@ -274,16 +283,18 @@ function lawCodeLabel(code){
 	};
 }
 
+/**
+ * This makes the infolabel move along with the mouse.
+ */
 function moveLabel() {
 
-	var x = d3.event.clientX+10; //horizontal label coordinate
-	var y = d3.event.clientY-75; //vertical label coordinate
+	var x = d3.event.clientX + 10; 
+	var y = d3.event.clientY - 75; 
 	
-	var mug = d3.select(".infolabel") //select the label div for moving
-		.style("left", x+"px") //reposition label horizontal
-		.style("top", y+"px"); //reposition label vertical
-		
-};
+	var mug = d3.select(".infolabel") 
+		.style("left", x+"px") 
+		.style("top", y+"px"); 
+}
 
 
 /**

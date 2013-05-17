@@ -18,19 +18,18 @@
 /**
  * Draws the svg for the grid of lgbt rights legislation over time by state.
  *
- * @param: LGBT rights index json
+ * @Index: LGBT rights index.json
  */
  function createGrid(Index){
- 
-	matrixAxes();
+
+	var margin = {top: 40, right: 40, bottom: 0, left:40};
  
 	var width = 900,
-		height = 900,
+		height = 800,
 		gridWidth = 800,
-		gridHeight = 800,
-		square = true; //whether cell is square or not
+		gridHeight = 800; //whether cell is square or not
 		
-	var calData = gridData(gridWidth, gridHeight, square, Index);//call data
+	var calData = gridData(gridWidth, gridHeight, Index);//call data
 	
     var grid = d3.select("#matrix").append("svg")
                     .attr("width", width)
@@ -42,12 +41,7 @@
                 .enter().append("svg:g")
                   .attr("class", "row");
 		
-		 row.append("text")
-		  .attr("x", -6)
-		  .attr("y", 2)
-		  .attr("dy", ".32em")
-		  .attr("text-anchor", "start")
-		  .text(function(d) { return d.ST; });
+		 
 
     var col = row.selectAll(".cell")
                  .data(function (d) { return d; })
@@ -64,6 +58,7 @@
                  })
                  .on('mouseout', function(d) {
                     d3.select(this)
+						.transition()
                         .style('fill', function(d) {
 							return d.color; 
 							});
@@ -77,25 +72,53 @@
                     return d.color; 
                  })
                  .style("stroke", '#fff');
+				 
+				 
+		row.append("text")
+		  .attr("x", 860)
+		  .attr("y", function(d, i) { return (i * 15.25) + 30; })
+		  .attr("dy", ".10em")
+		  .attr("text-anchor", "start")
+		  .style("font-size", "7pt")
+		  .text(function(d, i) { return state[i]; });
+				 
+	var x = d3.time.scale()
+		.domain([new Date(years[0]), d3.time.year.offset(new Date(years[years.length - 1]), 1)])
+		.rangeRound([0, width - margin.left - margin.right]);
+		
+	
+	
+	var xAxis = d3.svg.axis()
+		.scale(x)
+		.orient('top')
+		.ticks(d3.time.years, 1)
+		.tickFormat(d3.time.format('%y'))
+		.tickSize(0);
+	
+		
+	  // Add the x-axis.
+	grid.append("grid:g")
+      .attr("class", "xMatrix")
+      .attr("transform", "translate(45," + 17 + ")")
+      .call(xAxis);
 }
 
 /**
  * Populate the matrix with LGBT index data. Besides the var mentioned
  * below, also uses global arrays state and year.
  *
- * @param: gridWidth
- * @param: gridHeight
- * @param: square
- * @param: LGBT rights index json
+ * @gridWidth: width of svg to use as calculation for size of cell
+ * @gridHeight: height of svg to use as calculation for size of cell
+ * @Index: LGBT rights index.json
  * @return: returns an array of LGBT data to populate matrix
  */
- function gridData(gridWidth, gridHeight, square, Index){
+ function gridData(gridWidth, gridHeight, Index){
 	var index = Index[indexSelected];
     var data = new Array();
-    var gridItemWidth = gridWidth / 60;
-    var gridItemHeight = (square) ? gridItemWidth : gridHeight / 7;
-    var startX = gridItemWidth / 2;
-    var startY = gridItemHeight / 2;
+    var gridItemWidth = gridWidth / 50;
+    var gridItemHeight = gridItemWidth;
+    var startX = (gridItemWidth / 2)+30;
+    var startY = (gridItemHeight / 2)+10;
     var stepX = gridItemWidth;
     var stepY = gridItemHeight;
     var xpos = startX;
@@ -131,88 +154,17 @@
     return data;
 }
 
-function matrixAxes(){
- 
-	var margin = {top: 40, right: 40, bottom: 0, left:40},
-		height = 100,
-		width = 900;
-	
-	var x = d3.time.scale()
-		.domain([new Date(years[0]), d3.time.year.offset(new Date(years[years.length - 1]), 1)])
-		.rangeRound([0, width - margin.left - margin.right]);
-	
-	var xAxis = d3.svg.axis()
-		.scale(x)
-		.orient('top')
-		.ticks(d3.time.years, 1)
-		.tickFormat(d3.time.format('%y'))
-		.tickSize(0)
-		.tickPadding(8);
-		
-	var timeline = d3.select('#matrix').append('svg')
-		.attr('class', 'xMatrix')
-		.attr('width', width)
-		.attr('height', height)
-		.append('g')
-		.attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
-
-	timeline.selectAll('.xMatrix')
-		.data(years);
-
-	timeline.append('g')
-		.attr('class', 'x axis')
-		.attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
-		.call(xAxis);
-		
- }
- 
- //y-axis states
- // function matrixAxes(){
- 
-	// var margin = {top: 40, right: 40, bottom: 0, left:40},
-		// height = 100,
-		// width = 900;
-	
-	// var x = d3.time.scale()
-		// .domain([new Date(years[0]), d3.time.year.offset(new Date(years[years.length - 1]), 1)])
-		// .rangeRound([0, width - margin.left - margin.right]);
-	
-	// var yAxis = d3.svg.axis()
-		// .scale(x)
-		// .orient('left')
-		// .ticks(d3.time.years, 1)
-		// .tickFormat(d3.format('%y'))
-		// .tickSize(0)
-		// .tickPadding(8);
-		
-	// var timeline = d3.select('#matrix').append('svg')
-		// .attr('class', 'xMatrix')
-		// .attr('width', width)
-		// .attr('height', height)
-		// .append('g')
-		// .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
-
-	// timeline.selectAll('.xMatrix')
-		// .data(years);
-
-	// timeline.append('g')
-		// .attr('class', 'x axis')
-		// .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
-		// .call(xAxis);
-		
- // }
-
  /**
  * Creates an infolabel on mouseover.
  *
- * @param: handle is the currently selected cell
+ * @handle: the currently selected cell
  */
 function hoverOnCell(handle){
 
 	var lawDescrip = lawCodeLabel(handle.value);
 
 	var labelText = "<h1><i>" + handle.state + "</i></h1><br><b>" + handle.time + "</b><br><h2>" + indexSelected + ":<br>" + lawDescrip + "</h2>";
-	var infolabel = d3.select("body")
+	var infolabel = d3.select("#container")
 			.append("div")
 			.attr("class", "infolabel") //for styling label
 			.html(labelText); //add text
@@ -229,9 +181,9 @@ function hoverOutCell(){
  * Returns hex value to color matrix cell based on the index law value
  * which iterates over every value in the Index.json
  *
- * @param: Index, Index.json object of LGBT right legislation
- * @param: st, the currently selected state
- * @param: year, the currently selected year
+ * @Index:Index.json object of LGBT right legislation
+ * @st: the currently selected state
+ * @year: the currently selected year
  * @return: returns a hex value of color based on indexTable global var
  */
  function colorTrulia(Index, st, year){

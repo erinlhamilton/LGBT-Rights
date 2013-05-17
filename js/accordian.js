@@ -20,9 +20,9 @@ $(function() {
             "cursor": "pointer" // make it seem clickable
         }),
         $allCells = $("dd").css({
-            position: "relative",
-            top: -1,
-            left: 0,
+           position: "relative",
+           top: -1,
+            left: -40,
             display: "none" // info cells are just kicked off the page with CSS (for accessibility)
         });
     
@@ -60,7 +60,7 @@ $(function() {
                 paddingTop: 5,
                 paddingRight: 0, //40
                 paddingBottom: 10,
-                paddingLeft: 5
+                paddingLeft: 16
             });
             
             // animate current title to larger size            
@@ -69,19 +69,20 @@ $(function() {
                 paddingTop: 5,
                 paddingRight: 0,
                 paddingBottom: 5,
-                paddingLeft: 10
+                paddingLeft: 15
             }).next().slideDown();
             
             // make the current column the large size
             $parentWrap.animate({
                 //width: 320
-				width: 400
+				//width: 400
             }).addClass("curCol");
             
             // make other columns the small size
             $otherWraps.animate({
                 //width: 140
-				width: 400
+				//width: 400
+				//width: 380
             }).removeClass("curCol");
             
             // make sure the correct column is current
@@ -100,15 +101,27 @@ $(function() {
 function onClickMenu(Index, usa){
 	//clicking
 	
-	var hex = "e56";
-	var hexTwo="FC8";
-	var marriage = document.getElementById("marriage");
-	(marriage).onclick=function(){
+	var hex = "add"; 
+	var hexTwo = "20f";
+	//"fe5";//"e56";
+	//"add"; blueish grays
+	//"8ee"; slightly darker lightish blues 
+	//"8de"; //lightish blues 
+	//"fe6"; darkish yellowish yellows 
+	//"3ca"; grenish
+	//"fbf"; purples
+	//"fe7"; yellows
+	//"fe5"; uglier dark yellows
+	
+	//var hex= ; //"081";//"FC8";
+	var chosen = document.getElementById("marriage");
+	(chosen).onclick=function(){
 		$('#hex').empty()
 		$('#hex2').empty()
 		$('#hex3').empty()
 		$('#hex4').empty()
 		$('#hex5').empty()
+		$('#hex6').empty()
 		console.log("clicking");
 		indexSelected = indexArray[5];
 		index = Index[indexSelected];
@@ -119,13 +132,14 @@ function onClickMenu(Index, usa){
 		updateIndex();
 	};
 	
-	var housing = document.getElementById("housing");
-	(housing).onclick=function(){
+	var chosen = document.getElementById("housing");
+	(chosen).onclick=function(){
 		$('#hex').empty()
 		$('#hex2').empty()
 		$('#hex3').empty()
 		$('#hex4').empty()
 		$('#hex5').empty()
+		$('#hex6').empty()
 	console.log("clicking housing");
 	indexSelected = indexArray[4];
 	index = Index[indexSelected];
@@ -136,13 +150,14 @@ function onClickMenu(Index, usa){
 		updateIndex();
 	};
 	
-	var adoption = document.getElementById("adoption");
-	(adoption).onclick=function(){
+	var chosen = document.getElementById("adoption");
+	(chosen).onclick=function(){
 		$('#hex').empty()
 		$('#hex2').empty()
 		$('#hex3').empty()
 		$('#hex4').empty()
-		$('#hex5').empty()		
+		$('#hex5').empty()	
+		$('#hex6').empty()
 		
 	console.log("clicking adoption");
 	indexSelected = indexArray[0];
@@ -154,13 +169,14 @@ function onClickMenu(Index, usa){
 		updateIndex();
 	};
 	
-	var hate_crimes = document.getElementById("hate_crimes");
-	(hate_crimes).onclick=function(){
+	var chosen = document.getElementById("hate_crimes");
+	(chosen).onclick=function(){
 		$('#hex').empty()
 		$('#hex2').empty()
 		$('#hex3').empty()
 		$('#hex4').empty()
 		$('#hex5').empty()
+		$('#hex6').empty()
 	console.log("clicking hate");
 	indexSelected = indexArray[2];
 	index = Index[indexSelected];
@@ -171,13 +187,15 @@ function onClickMenu(Index, usa){
 		updateIndex();
 	};
 	
-	var hospital = document.getElementById("hospital");
-	(hospital).onclick=function(){
+	var chosen = document.getElementById("hospital");
+	chosen.onclick=function(){
 		$('#hex').empty()
 		$('#hex2').empty()
 		$('#hex3').empty()
 		$('#hex4').empty()
 		$('#hex5').empty()
+		$('#hex6').empty()
+		
 	console.log("clicking hospital");
 	indexSelected = indexArray[3];
 	index = Index[indexSelected];
@@ -188,13 +206,14 @@ function onClickMenu(Index, usa){
 		updateIndex();
 	};
 	
-		var employment = document.getElementById("employment");
-	(employment).onclick=function(){
+	var chosen = document.getElementById("employment");
+	(chosen).onclick=function(){
 		$('#hex').empty()
 		$('#hex2').empty()
 		$('#hex3').empty()
 		$('#hex4').empty()
 		$('#hex5').empty()
+		$('#hex6').empty()
 	console.log("employment");
 	indexSelected = indexArray[1];
 	index = Index[indexSelected];
@@ -203,6 +222,19 @@ function onClickMenu(Index, usa){
 		hexCreation(hex, hexTwo, number);
 		updateIndex();
 	};
+}
+
+function updateIndex(){
+	d3.selectAll(".states")
+			.style("fill", function(d) { 
+				return colorMap(Index, d.properties.ST, year) 
+		});
+		
+	d3.select(".chart").remove();
+	d3.select(".xMatrix").remove();
+	d3.select(".matrix").remove();
+	createGrid(Index);
+	createChart(Index);
 }
 
 function updateIndex(){
