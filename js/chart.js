@@ -43,15 +43,16 @@
                  .attr("height", function(d) { return d.height; })
                  .on('mouseover', function(d) {
                     d3.select(this)
-                        .style('fill', '#FFFF00');
+                         .style('stroke', '#979697')
+						.style('stroke-width', '4px')
+						.moveToFront();
 					hoverOnChart(d);
 						
                  })
                  .on('mouseout', function(d) {
                     d3.select(this)
-                        .style('fill', function(d) {
-							return d.color; 
-							});
+						.style('stroke', '#fff')
+						.style('stroke-width', '1px');
 					hoverOutChart(d);
                  })
                  .on("mousemove", moveLabel)
@@ -133,7 +134,9 @@
  */
 function hoverOnChart(handle){
 	var map = d3.select("#" + handle.state)
-		.style("fill", "#FFFF00");
+		.style('stroke', '#979697')
+		.style('stroke-width', '4px')
+		.moveToFront();
 
 	var lawDescrip = lawCodeLabel(handle.value);
 
@@ -149,9 +152,8 @@ function hoverOnChart(handle){
  */
 function hoverOutChart(handle){
 	var map = d3.select("#" + handle.state)
-		.style("fill", function() {
-				return colorMap(Index, handle.state, year);
-			});
+		.style('stroke', '#D4D4D4')
+		.style('stroke-width', '1px');
 	d3.select(".infolabel").remove(); //remove info label
 }
 /**

@@ -99,21 +99,11 @@ $(function() {
 });
 
 function onClickMenu(Index, usa){
-	//clicking
 	
-	var hex = "add"; 
-	var hexTwo = "20f";
-	//"fe5";//"e56";
-	//"add"; blueish grays
-	//"8ee"; slightly darker lightish blues 
-	//"8de"; //lightish blues 
-	//"fe6"; darkish yellowish yellows 
-	//"3ca"; grenish
-	//"fbf"; purples
-	//"fe7"; yellows
-	//"fe5"; uglier dark yellows
+	var hex = "CC7722"; //orange
+
+	var hexTwo = "6889cb";//blue
 	
-	//var hex= ; //"081";//"FC8";
 	var chosen = document.getElementById("marriage");
 	(chosen).onclick=function(){
 		$('#hex').empty()
@@ -122,7 +112,6 @@ function onClickMenu(Index, usa){
 		$('#hex4').empty()
 		$('#hex5').empty()
 		$('#hex6').empty()
-		console.log("clicking");
 		indexSelected = indexArray[5];
 		index = Index[indexSelected];
 		//setMap(usa, index);
@@ -140,7 +129,6 @@ function onClickMenu(Index, usa){
 		$('#hex4').empty()
 		$('#hex5').empty()
 		$('#hex6').empty()
-	console.log("clicking housing");
 	indexSelected = indexArray[4];
 	index = Index[indexSelected];
 		
@@ -159,7 +147,6 @@ function onClickMenu(Index, usa){
 		$('#hex5').empty()	
 		$('#hex6').empty()
 		
-	console.log("clicking adoption");
 	indexSelected = indexArray[0];
 	index = Index[indexSelected];
 		var number = 4;
@@ -177,7 +164,6 @@ function onClickMenu(Index, usa){
 		$('#hex4').empty()
 		$('#hex5').empty()
 		$('#hex6').empty()
-	console.log("clicking hate");
 	indexSelected = indexArray[2];
 	index = Index[indexSelected];
 		//setMap(usa, index);
@@ -196,7 +182,6 @@ function onClickMenu(Index, usa){
 		$('#hex5').empty()
 		$('#hex6').empty()
 		
-	console.log("clicking hospital");
 	indexSelected = indexArray[3];
 	index = Index[indexSelected];
 		//setMap(usa, index);
@@ -214,7 +199,7 @@ function onClickMenu(Index, usa){
 		$('#hex4').empty()
 		$('#hex5').empty()
 		$('#hex6').empty()
-	console.log("employment");
+
 	indexSelected = indexArray[1];
 	index = Index[indexSelected];
 		//setMap(usa, index);
@@ -222,19 +207,6 @@ function onClickMenu(Index, usa){
 		hexCreation(hex, hexTwo, number);
 		updateIndex();
 	};
-}
-
-function updateIndex(){
-	d3.selectAll(".states")
-			.style("fill", function(d) { 
-				return colorMap(Index, d.properties.ST, year) 
-		});
-		
-	d3.select(".chart").remove();
-	d3.select(".xMatrix").remove();
-	d3.select(".matrix").remove();
-	createGrid(Index);
-	createChart(Index);
 }
 
 function updateIndex(){

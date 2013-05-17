@@ -53,20 +53,20 @@
                  .attr("height", function(d) { return d.height; })
                  .on('mouseover', function(d) {
                     d3.select(this)
-                        .style('fill', '#FFFF00');
+                        .style('stroke', '#979697')
+						.style('stroke-width', '2px')
+						.moveToFront();
 						hoverOnCell(d);
                  })
                  .on('mouseout', function(d) {
-                    d3.select(this)
-						.transition()
-                        .style('fill', function(d) {
-							return d.color; 
-							});
+						d3.select(this)
+							.style('stroke', '#fff')
+							.style('stroke-width', '1px');
 						hoverOutCell(d);
                  })
                  .on("mousemove", moveLabel)
 				 .on("click", function(d){
-					console.log(d);
+					//console.log(d);
 				 })
                  .style("fill", function(d) {
                     return d.color; 

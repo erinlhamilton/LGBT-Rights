@@ -40,14 +40,18 @@ function setMap(usa){
 			.attr("d", path)
 			.on('mouseover', function(d) {
                     d3.select(this)
-                        .style('fill', '#FFFF00');
+                        .style('stroke', '#979697')
+						.style('stroke-width', '4px')
+						.moveToFront();
 					hoverOnState(d.properties);
                  })
 			 .on('mouseout', function(d) {
 				d3.select(this)
-					.style('fill', function(d) {
-						return colorMap(Index, d.properties.ST, year)
-						});
+					.style('stroke', '#D4D4D4')
+					.style('stroke-width', '1px');
+					//function(d) {
+						//return colorMap(Index, d.properties.ST, year)
+						//});
 				hoverOutState(d.properties);
 			 })
 			 .on("mousemove", moveLabel)
