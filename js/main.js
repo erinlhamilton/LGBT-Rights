@@ -22,14 +22,17 @@ var indexArray = ["Adoption", "Employment", "HateCrime", "Hospital", "Housing", 
 var indexSelected = indexArray[5];
 var Index;//global Index.json variable.
 var timestamp = 50;//2013. The start year for years array. Used for timer and iterations.
+var onHover; //have to set this to variable different depending on browser for .on events
+var outHover; //have to set this to variable different depending on browser for .on events
 
-/**Key values in Index JSON, which contain colors used to fill states*/
+
 /**Key values in Index JSON, which contain colors used to fill states*/
 var indexTable = {
 	/*Adoption*/ //8
 	"YYY": "#3e527a", //Y, Y, Y
 	"SPYSSCY": "#536ea2", //Y, Y, na (YY)
-	"SPYSSPY": "#6889cb", //Y, na, Y (YY)
+	"SPYSSPY": "#536ea2", //Y, na, Y (YY)
+	"SPYSCCY": "#6889cb", //single parent yes same sex couple yes 
 	"SSCLR": "#6889cb", //S<--SPY..limited recognition same sex couple adoption (LR) Y LR na
 	"YSSPLR": "#6889cb", //Ssamecolor Y na LR
 	"YYSSPLR": "#7da4f4", //Ssame color Y Y LR
@@ -39,7 +42,8 @@ var indexTable = {
 	"SPYNN": "#eb8927", //Y, N, N
 	
 	
-	// adoption colors ["#eb8927", "#ff9b2c", "#ffbe36", "#ffff4b", "#7da4f4", "#6889cb", "#536ea2", "#3e527a"]
+	// adoption colors ["#eb8927", "#ff9b2c", "#ffbe36", "#ffff4b", 
+	//"#7da4f4", "#6889cb", "#536ea2", "#3e527a"]
 	
 	/*Employment*/ //2
 	"SOP": "#92c0ff", //Same Sex Orientation Employment Protection
@@ -48,11 +52,11 @@ var indexTable = {
 	//employment ["#92c0ff", "#6889cb"]
 	
 	/*Hate Crimes*/ //5
-	"GI": "#36476a", //Gender Identity Hate Crime Law
-	"SO": "#475d8a", //Same Sex Orientation Hate Crime Law
-	"SOGI": "#5773ab", //Same Sex Orientation & Gender Idenity Hate Crime Laws
+	// "GI": "#36476a", //Gender Identity Hate Crime Law
+	"SOGI": "#3e527a", //Same Sex Orientation & Gender Idenity Hate Crime Laws
+	"SO": "#536ea2", //Same Sex Orientation Hate Crime Law
 	"NHCL": "#6889cb", //No Hate Crime Laws At All For the State
-	"NSG": "#799feb", //No Sexual Orientation or Gender Idenity Hate Crime Laws
+	"NSG": "#7da4f4", //No Sexual Orientation or Gender Idenity Hate Crime Laws
 	
 	//hate colors ["#799feb", "#6889cb", "#5773ab", "#475d8a", "#36476a"]
 
@@ -64,14 +68,13 @@ var indexTable = {
 	//hospital and housing colors["#84aeff", "#6889cb", "#4c6495"]
 	
 	/*Housing*/ //3
-	"BSO": "#4c6495", //Bans ONLY sexual orientation housing discrimination
-	"BID": "#6889cb", //Bans ONLY identity/expression housing discrimination
-	"BB": "#84aeff", //bans sex orientation disc AND bans ID/ex discrim
+	"BSO": "#6889cb", //Bans ONLY sexual orientation housing discrimination
+	"BB": "#92c0ff", //bans sex orientation disc AND bans ID/ex discrim
 	
 	/*Marriage*/ //14
 	"ML": "#2d3b57", //Marriage Legal
-	"CUL": "#3d61b6", //Civil Unions Legal
-	"DPL": "#384a6e", //Domestic Partnerships Legal
+	"CUL": "#384a6e", //Civil Unions Legal
+	"DPL": "#445a85", //Domestic Partnerships Legal
 	"LBCUL": "#506a9d", //Legislative Ban on Marriage, Civil Unions Legal
 	"CBCUL": "#5c79b4", //Constitutional Ban on Marriage, Civil Unions Legal
 	"LBDPL": "#6889cb", //Legislative Ban on Marriage, Domestic Partnership Legal
@@ -84,7 +87,8 @@ var indexTable = {
 	"CBO": "#ef8b28", //Constitutional ban on marriage and other relationship recognition
 	"LBCBO": "#dd8125", //Legislative and Constitutional Ban on All Relationship Recognition
 };
-	
+
+//years array used to create the axes and also used for iteration of the Index.json	
 var years = ['1963', '1964', '1965', '1966', '1967', '1968', '1969', '1970', 
 	'1971', '1972', '1973', '1974', '1975', '1976', '1977', '1978', '1979', '1980', '1981', 
 	'1982', '1983', '1984', '1985', '1986', '1987', '1988', '1989', '1990', '1991', '1992', 
@@ -93,17 +97,80 @@ var years = ['1963', '1964', '1965', '1966', '1967', '1968', '1969', '1970',
 
 //year to view on load	
 var year = years[timestamp];
-	
+
+//state array used to create the axes and also used for iteration of the Index.json	
 var state = ['AL', 'AK', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA', 'HI', 'IA', 'ID', 
 	'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME', 'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 
 	'NE', 'NH', 'NJ', 'NM', 'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 
 	'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY'];
+	
+var states = {
+		AK: { name: 'Alaska'},
+		AL: { name: 'Alabama'},
+		AR: { name: 'Arkansas'},
+		AZ: { name: 'Arizona'},
+		CA: { name: 'California'},
+		CO: { name: 'Colorado'},
+		CT: { name: 'Connecticut'},
+		DC: { name: 'District of Columbia'},
+		DE: { name: 'Delaware'}, 
+		FL: { name: 'Florida'},
+		GA: { name: 'Georgia'},
+		HI: { name: 'Hawaii'},
+		IA: { name: 'Iowa'},
+		ID: { name: 'Idaho'},
+		IL: { name: 'Illinois'},
+		IN: { name: 'Indiana'},
+		KS: { name: 'Kansas'},
+		KY: { name: 'Kentucky'},
+		LA: { name: 'Louisiana'},
+		MA: { name: 'Massachusetts'},
+		MD: { name: 'Maryland'},
+		ME: { name: 'Maine'},
+		MI: { name: 'Michigan'},
+		MN: { name: 'Minnesota'},
+		MO: { name: 'Missouri'},
+		MS: { name: 'Missippippi'},
+		MT: { name: 'Montana'},
+		NC: { name: 'North Carolina'},
+		ND: { name: 'North Dakota'},
+		NE: { name: 'Nebraska'},
+		NH: { name: 'New Hampshire'},
+		NJ: { name: 'New Jersey'},
+		NM: { name: 'New Mexico'},
+		NV: { name: 'Nevada'},
+		NY: { name: 'New York'},
+		OH: { name: 'Ohio'},
+		OK: { name: 'Oklahoma'},
+		OR: { name: 'Oregon'},
+		PA: { name: 'Pennsylvania'},
+		RI: { name: 'Rhode Island'},
+		SC: { name: 'South Carolina'},
+		SD: { name: 'South Dakota'},
+		TN: { name: 'Tennessee'},
+		TX: { name: 'Texas'},
+		UT: { name: 'Utah'},
+		VA: { name: 'Virginia'},
+		VT: { name: 'Vermont'},
+		WA: { name: 'Washington'},
+		WI: { name: 'Wisconsin'},
+		WV: { name: 'West Virginia'},
+		WY: { name: 'Wyoming'}
+	};
 
 /**
  * Called by window onload at bottom of script.
  */
 function initialize(){
 	$("#stop").hide();//onload, hide the stop button.
+	//if browser is IE, must use mouseenter/leave for hover events, all other browsers use mouseover/mouseout.
+	if (isIE){
+		onHover = 'mouseenter';
+		outHover = 'mouseleave';
+	}else{
+		onHover = 'mouseover';
+		outHover = 'mouseout';
+	}
 	fetchData();
 }
 
@@ -122,9 +189,9 @@ function fetchData(){
 /**
 *	Once JSON data is loaded, use this function to call other functions
 *
-* @param:error, any errors that occur from queue
-* @param: _Index, the Index.json main object
-* @param: usa, the usa.json topojson for the map
+* @error: any errors that occur from queue
+* @_Index: the Index.json main object
+* @usa: the usa.json topojson for the map
 */
 function ready(error, _Index, usa){
 	Index = _Index;
@@ -134,21 +201,46 @@ function ready(error, _Index, usa){
 	createGrid(Index); //trulia.js
 	createChart(Index); //chart.js
 	$('#marriage').trigger('click');//trigger a click event after page loaded to display marriage
+	updateLegend(indexSelected);
+	sequence(year);
 }
 
+// JavaScript Document
+
 /**
- * This bit of code makes the infowindow move in front of other objects, like the legend.
- */
-d3.selection.prototype.moveToFront = function() {
+	 * Updates the legend above the matrix with the currently selected Index
+	 */
+function updateLegend(indexSelected){
+	var indexText = indexSelected;
+	if(indexSelected === indexArray[2]){
+		indexText="Hate Crimes";
+	}else if(indexSelected === indexArray[3]){
+		indexText="Hospital Visition";
+	}
+$('#indexL').html(indexText).css('font-weight','bold');	
+	
+}
+
+
+
+/**
+	 * This bit of code makes the infowindow move in front of other objects, like the legend.
+	 */
+  function moveToFront() { 
+    this.parentNode.appendChild(this); 
+  }  
+  
+  d3.selection.prototype.moveToFront = function() {
   return this.each(function(){
     this.parentNode.appendChild(this);
   });
 };
+	
 
 /**
 *Function of switch statements to display a description for the lawcodes.
 *
-* @param: code are the couple letter lawcodes that come fron Index.json
+* @code: the couple letter lawcodes that come fron Index.json
 */
 function lawCodeLabel(code){
 
@@ -194,9 +286,9 @@ function lawCodeLabel(code){
 		case"SO": 	
 			return "Laws protect sexual orientation against hate crimes in this state."
 		break;
-		case"GI": 
-			return "Laws protect gender identity against hate crimes in this state."
-		break;
+		// case"GI": 
+			// return "Laws protect gender identity against hate crimes in this state."
+		// break;
 		case"SOGI": 
 			return "Laws protect sexual orientation and gender identity aganst hate crimes in this state."
 		break;
@@ -224,7 +316,7 @@ function lawCodeLabel(code){
 			return "This state legally bans housing discrimination against only gender identity/expression."
 		break;
 		case "BB": 
-			return "This state legally bans housing discrimination against sexual orientation disc and gender identity/expression."
+			return "This state legally bans housing discrimination against sexual orientation discrimination and gender identity/expression."
 		break;
 		/*Marriage*/
 		case "ML": 
@@ -278,12 +370,13 @@ function lawCodeLabel(code){
  */
 function moveLabel() {
 
-	var x = d3.event.clientX + 10; 
-	var y = d3.event.clientY - 75; 
+	var x = d3.event.clientX + 20; 
+	var y = d3.event.clientY - 5; 
 	
 	var mug = d3.select(".infolabel") 
-		.style("left", x+"px") 
-		.style("top", y+"px"); 
+		.style("left", x +"px")
+		.style("top", y + "px");
+
 }
 
 
@@ -293,7 +386,5 @@ function moveLabel() {
  
  //window.onload = initialize();
 $(document).ready(initialize());
-
-
 
 

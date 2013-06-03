@@ -18,11 +18,12 @@
  */
 function setMap(usa){
 	var width = 600;
-	var height = 350;
+	var height = 300;
 	
 	var map = d3.select("#map-container").append("svg")
 		.attr("width",width)
-		.attr("height",height);
+		.attr("height",height)
+		.attr("class", "map");
 		
 	var projection = d3.geo.albersUsa()
 		.scale(600)
@@ -38,25 +39,23 @@ function setMap(usa){
 			.attr("id", function(d) { 
 				return d.properties.ST })
 			.attr("d", path)
-			.on('mouseover', function(d) {
-                    d3.select(this)
-                        .style('stroke', '#979697')
-						.style('stroke-width', '4px')
-						.moveToFront();
-					hoverOnState(d.properties);
-                 })
-			 .on('mouseout', function(d) {
+			.on(onHover, function(d) {
+				d3.select(this)
+					.style('stroke', '#979697')
+					.style('stroke-width', '4px');
+				if(!isIE){//if not IE, move hovered element to front.
+					moveToFront.call(this.parentNode);
+					moveToFront.call(this);
+				}
+				hoverOnState(d.properties);
+			 })
+			.on(outHover, function(d) {
 				d3.select(this)
 					.style('stroke', '#D4D4D4')
 					.style('stroke-width', '1px');
-					//function(d) {
-						//return colorMap(Index, d.properties.ST, year)
-						//});
 				hoverOutState(d.properties);
 			 })
-			 .on("mousemove", moveLabel)
-			 .on('click', function(d) {
-			 })
+			 .on("mousemove", moveMapLabel)
 			.style("fill", function(d) { 
 				return colorMap(Index, d.properties.ST, year) });// color the states
 }
@@ -86,12 +85,16 @@ function hoverOnState(handle){
 	var code = index[year][handle.ST]
 	var lawDescrip = lawCodeLabel(code);
 
-	var labelText = "<h1><i>" + handle.State + "</i></h1><br><b>" + year + "</b><br><h2>" + indexSelected + ":<br>" + lawDescrip + "</h2>";
-	var infolabel = d3.select("#container")
+	var labelText = "<h1><i>" + handle.State + "</i></h1><b><span style=float:right>" + year + "</span></b><p>" + lawDescrip + "</p>";
+
+
+
+
+	var infolabel = d3.select("#map-container")
 			.append("div")
 			.attr("class", "infolabel") //for styling label
-			.html(labelText)
-			.moveToFront(); //add text
+			.html(labelText);
+			//.moveToFront(); //add text
 }
 
  /**
@@ -101,3 +104,23 @@ function hoverOutState(){
 	d3.select(".infolabel").remove(); //remove info label
 }
 
+/**
+ * This makes the infolabel move along with the mouse.
+ */
+function moveMapLabel() {
+
+	var x = d3.event.clientX; 
+	var y = d3.event.clientY - 10; 
+
+	//at center coordinates of div, switch side of mouse on which infolabel appears
+	var switchIt = 0;
+	if (x < 930){
+		switchIt = 40;
+	}else{
+		switchIt = -250;
+	}
+	
+	var mug = d3.select(".infolabel") 
+		.style("left", (x+switchIt) +"px")
+		.style("top", y + "px");
+}

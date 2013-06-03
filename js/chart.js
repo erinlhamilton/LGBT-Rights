@@ -2,18 +2,21 @@
 // Main Class File:   main.js
 // File:              chart.js
 //
-// Author:           (your name and email address)
+// Author:           Erin Hamilton
+// Author:           Rashauna Mead
 //
-// Description:     (Succint description of this file here)
+// Description:     Creates the histogram bar chart displaying the year a law
+//                  changed for each state.
 //                   
 // Credits:         Code adapted from Bunkat's basic grid code:
-//					http://bl.ocks.org/bunkat/2605010
+//		    http://bl.ocks.org/bunkat/2605010
 //////////////////////////// 80 columns wide //////////////////////////////////
+
 
 /**
  * This function creates a bar chart, based on the matrix grid
  *
- * @param Index.json is passed to this function, only to be passed
+ * @Index: Index.json is passed to this function, only to be passed
  * to the chartData to be used for data creation
  */
  function createChart(Index){
@@ -41,24 +44,24 @@
                  .attr("y", function(d) { return d.y; })
                  .attr("width", function(d) { return d.width; })
                  .attr("height", function(d) { return d.height; })
-                 .on('mouseover', function(d) {
-                    d3.select(this)
-                         .style('stroke', '#979697')
-						.style('stroke-width', '4px')
-						.moveToFront();
+                 .on(onHover, function(d) {
+					d3.select(this)
+						.style('stroke', '#979697')
+						.style('stroke-width', '4px');
+					if(!isIE){//if not IE, move hovered element to front.
+						moveToFront.call(this.parentNode);
+						moveToFront.call(this);
+					}
 					hoverOnChart(d);
 						
                  })
-                 .on('mouseout', function(d) {
-                    d3.select(this)
+                 .on(outHover, function(d) {
+					d3.select(this)
 						.style('stroke', '#fff')
 						.style('stroke-width', '1px');
 					hoverOutChart(d);
                  })
-                 .on("mousemove", moveLabel)
-				 .on("click", function(d){
-					console.log(d);
-				 })
+                 .on("mousemove", moveChartLabel)
 				 .transition()
                  .style("fill", function(d) {
                     return d.color; 
@@ -68,10 +71,10 @@
 }
 
 /**
- * This function creates an array of array of objects. The first layer of arrays are years,
+ * This function creates an array of objects. The first layer of arrays are years,
  * the second array are of states that have passed a law from the previous year
  *
- * @param Index.json passed is used to create array
+ * @IndexIndex.json passed is used to create array
  */
  function chartData(Index){
  
@@ -86,7 +89,7 @@
 	// the below variables are used for sizing and positioning of cells
 	var gridItemWidth = gridWidth / 49.8;
     var gridItemHeight = gridItemWidth ;
-    var startY = gridItemWidth / 2 + 225;
+    var startY = gridItemWidth / 2 + 220;
     var startX = gridItemHeight / 2;
     var stepY = gridItemWidth;
     var stepX = gridItemHeight;
@@ -130,7 +133,7 @@
  /**
  * Creates an infolabel on mouseover.
  *
- * @param: handle is the currently selected cell
+ * @handle: the currently selected cell
  */
 function hoverOnChart(handle){
 	var map = d3.select("#" + handle.state)
@@ -140,8 +143,10 @@ function hoverOnChart(handle){
 
 	var lawDescrip = lawCodeLabel(handle.value);
 
-	var labelText = "<h1><i>" + handle.state + "</i></h1><br><b>" + handle.time + "</b><br><h2>" + indexSelected + ":<br>" + lawDescrip + "</h2>";
-	var infolabel = d3.select("#container")
+	//var labelText = "<h1><i>" + states[handle.state].name + "</i></h1><br><b>" + handle.time + "</b><br><h2>" + indexSelected + ":<br>" + lawDescrip + "</h2>";
+	var labelText = "<h1><i>" + states[handle.state].name + "</i></h1><b><span style=float:right>" + handle.time + "</span></b><h3></h3><p>" + lawDescrip + "</p>";
+	
+	var infolabel = d3.select("#chart")
 			.append("div")
 			.attr("class", "infolabel") //for styling label
 			.html(labelText); //add text
@@ -149,6 +154,8 @@ function hoverOnChart(handle){
 
  /**
  * Destroys infolabel on mouseout
+ *
+ * @handle: the currently selected cell
  */
 function hoverOutChart(handle){
 	var map = d3.select("#" + handle.state)
@@ -160,12 +167,33 @@ function hoverOutChart(handle){
  * Returns hex colors for a given state and year based on the Index.json. Used to provide fill color for
  * an element
  *
- * @param Index.json is the global object
- * @param st is the current state selected
- * @param year is the current year selected
+ * @Index Index.json is the global object
+ * @st the current state selected
+ * @year the current year selected
  * @return returns the hex code for a given lawcode based on indexTable
  */
 function colorChart(Index, st, year){
 	var index = Index[indexSelected];//currently selected index(global variable)
 	return indexTable[index[year][st]];
  }
+ 
+ /**
+ * This makes the infolabel move along with the mouse.
+ */
+ function moveChartLabel() {
+
+	var x = d3.event.clientX; 
+	var y = d3.event.clientY - 10; 
+
+	//at center coordinates of div, switch side of mouse on which infolabel appears
+	var switchIt = 0;
+	if (x < 900){
+		switchIt = 40;
+	}else{
+		switchIt = -250;
+	}
+	
+	var mug = d3.select(".infolabel") 
+		.style("left", (x+switchIt) +"px")
+		.style("top", y + "px"); 
+}

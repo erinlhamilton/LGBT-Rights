@@ -22,8 +22,8 @@ var timeInterval = 1000; //intial animation speed in miliseconds
  */
  function createTimeline(index, data){
  
-	var margin = {top: 0, right: 40, bottom: 40, left:40},
-		height = 35,
+	var margin = {top: 10, right: 40, bottom: 30, left:40},
+		height = 30,
 		width = 950;
 	
 	var x = d3.time.scale()
@@ -58,18 +58,27 @@ var timeInterval = 1000; //intial animation speed in miliseconds
 			d3.select(this) //select the current axis container element;
 			.on("mouseover", function(){ //click listener
 				d3.select(this)
-				.attr("fill", "#FFFF00");
+				.attr("font-weight", "bold")
+				.attr("font-size", "12pt")
+				.attr("cursor", "hand")
+				.attr("cursor", "pointer");
 			})
 			.on("mouseout", function(){ //click listener
-				d3.select(this)
-					.attr("fill", "black");
+				var selYr = d.getFullYear();
+				if (selYr != year){
+					d3.select(this)
+						.attr("font-weight", "normal")
+						.attr("font-size", "7.5pt")
+						.attr("cursor", "hand")
+						.attr("cursor", "pointer");
+				}
 			})
 			.on("click", function(){ //click listener
+				console.log(this);
 				year = d.getFullYear();
-				sequence(year, index)
+				sequence(year)	
 			});
-		});
-		
+		});	
  }
 
  /**
@@ -85,6 +94,23 @@ var timeInterval = 1000; //intial animation speed in miliseconds
 			.style("fill", function(d) { //color enumeration units
 				return colorMap(Index, d.properties.ST, yr); //->
 			});
+			
+	var timelineText = d3.select("#timeline")
+		.selectAll(".tick.major")
+		.attr("font-weight", function(d) {
+			if( yr == d.getFullYear()){
+				return "bold";
+			} else{
+				return "normal";
+			}
+		})
+		.attr("font-size", 	function(d) {
+			if( yr == d.getFullYear()){
+				return "12pt";
+			} else{
+				return "7.5pt";
+			}
+		});
 			
 	var yearTitle = d3.select("#time") 
 		.select("h1")

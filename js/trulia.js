@@ -24,12 +24,13 @@
 
 	var margin = {top: 40, right: 40, bottom: 0, left:40};
  
-	var width = 900,
-		height = 800,
-		gridWidth = 800,
-		gridHeight = 800; //whether cell is square or not
+	var width = 950,
+		height = 950,
+		gridWidth = 850,
+		gridHeight = 850; //whether cell is square or not
 		
 	var calData = gridData(gridWidth, gridHeight, Index);//call data
+	var div = "#matrix";
 	
     var grid = d3.select("#matrix").append("svg")
                     .attr("width", width)
@@ -54,9 +55,12 @@
                  .on('mouseover', function(d) {
                     d3.select(this)
                         .style('stroke', '#979697')
-						.style('stroke-width', '2px')
-						.moveToFront();
-						hoverOnCell(d);
+						.style('stroke-width', '2.5px')
+					if(!isIE){//if not IE, move hovered element to front.
+						moveToFront.call(this.parentNode);
+						moveToFront.call(this);
+					}
+					hoverOnCell(d);
                  })
                  .on('mouseout', function(d) {
 						d3.select(this)
@@ -64,10 +68,7 @@
 							.style('stroke-width', '1px');
 						hoverOutCell(d);
                  })
-                 .on("mousemove", moveLabel)
-				 .on("click", function(d){
-					//console.log(d);
-				 })
+                 .on("mousemove", moveTruliaLabel)
                  .style("fill", function(d) {
                     return d.color; 
                  })
@@ -75,10 +76,11 @@
 				 
 				 
 		row.append("text")
-		  .attr("x", 860)
-		  .attr("y", function(d, i) { return (i * 15.25) + 30; })
+		  .attr("x", 910)
+		  .attr("y", function(d, i) { return (i * 17) + 30; })
 		  .attr("dy", ".10em")
 		  .attr("text-anchor", "start")
+		  .attr("cursor", "default")
 		  .style("font-size", "7pt")
 		  .text(function(d, i) { return state[i]; });
 				 
@@ -163,8 +165,10 @@ function hoverOnCell(handle){
 
 	var lawDescrip = lawCodeLabel(handle.value);
 
-	var labelText = "<h1><i>" + handle.state + "</i></h1><br><b>" + handle.time + "</b><br><h2>" + indexSelected + ":<br>" + lawDescrip + "</h2>";
-	var infolabel = d3.select("#container")
+
+	var labelText = "<h1><i>" + states[handle.state].name + "</i></h1><b><span style=float:right>" + handle.time + "</span></b><h3></h3><p>" + lawDescrip + "</p>";
+	
+	var infolabel = d3.select("#matrix")
 			.append("div")
 			.attr("class", "infolabel") //for styling label
 			.html(labelText); //add text
@@ -190,5 +194,26 @@ function hoverOutCell(){
 	var index = Index[indexSelected];//currently selected index(global variable)
 	return indexTable[index[year][st]];
  }
+ 
+ /**
+ * This makes the infolabel move along with the mouse.
+ */
+ function moveTruliaLabel() {
+ 
+	var x = d3.event.clientX; 
+	var y = d3.event.clientY - 10; 
+
+	//at center coordinates of div, switch side of mouse on which infolabel appears
+	var switchIt = 0;
+	if (x < 770){
+		switchIt = 40;
+	}else{
+		switchIt = -245;
+	}
+	
+	var mug = d3.select(".infolabel") 
+		.style("left", (x+switchIt) +"px")
+		.style("top", y + "px");
+}
  
  

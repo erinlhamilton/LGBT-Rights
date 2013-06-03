@@ -3,7 +3,13 @@
 <html>
 <head>
 
-	<title>LGBT Rights</title>
+	<title>50 Years of Change</title>
+
+	<!--[if lt IE 7 ]> <html class="ie6"> <![endif]-->
+	<!--[if IE 7 ]>    <html class="ie7"> <![endif]-->
+	<!--[if IE 8 ]>    <html class="ie8"> <![endif]-->
+	<!--[if IE 9 ]>    <html class="ie9"> <![endif]-->
+	<!--[if (gt IE 9)|!(IE)]><!--> <html class=""> <!--<![endif]-->
 	
 	<!--Stylesheets-->
 	<link rel="stylesheet" href="css/style.css">
@@ -15,17 +21,33 @@
 
 	<div id="container">
 		<div id="header">
-        <h1 class="title">50 Years of Change</h1>
+        <h1 class="title"><span style="color:#3B3B3B">50 Years of Change</span></h1>
         <p class="title"> A look at LGBT civil rights over the last half-century of state legislation changes. Documenting laws and regulations that both restrict and promote LGBT rights.</p>
         </div>
+		<p>Over the last fifty years, there has been a marked increase in the sheer quantity of state legislation that deals with Lesbian, Gay, Bisexual, and Transgender rights. The Supreme Court has recently heard two LGBT cases, Prop 8 and DOMA, and are expected to announce their decisions in June of 2013.  These cases will have a significant impact on both state and federal laws. Leading up to these decisions, it is worth taking a look at how state LGBT laws dealing with marriage, adoption, housing, hate crimes, hospital visitation, and employment have changed over the last half-century. <a href="#footer">Read more about this map.</a></p>       
+		<!-- <p>We conceptualized mapping this data once the Supreme Court started hearing the Prop 8 and Defense of Marriage Act. Our motivation stems from general interest, it is fascinating how LGBT rights have been developing exponentially in the United States in the last decade, and the personal stake that we have in the outcomes of the rulings as we either belong to the LGBT community ourselves or are close to those that identify as queer. It is exciting for us in that in the month of May alone we had to update our data three times as new states adopted laws for marriage equality. As legislation is moving so quickly now, it is important to look back and see that this was not always the case. LGBT rights have been restricted, gained traction, and been left stagnant over the years, all at varying speeds. We look forward to you exploring these trends throughout the fight for equal rights. Help link.</p>  -->
+		
+		<!--Social Media Code-->
+		<div id="socialMedia">
+			<!-- AddThis Button BEGIN -->
+			<div class="addthis_toolbox addthis_default_style">
+			<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+			<a class="addthis_button_tweet"></a>
+			<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+			<a class="addthis_counter addthis_pill_style"></a>
+			</div>
+			<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-51ab8bb503fbfffc"></script>
+			<!-- AddThis Button END -->
+		</div>
 		<div id="map-container"></div>
 		<div id="time"><h1>2013<h1></div>
         <div id="timerControls">
-        <a  id="back" class="control back"><img src="img/back.png" ></a>
-        <a id="play" class="control play"><img src="img/play.png"></a>
-        <a id="stop" class="control stop"><img src="img/pause.png"></a>
-        <a id="forward" class="control next"><img src="img/next.png"></a>
-        
+        <a  id="back" class="control back"><img src="img/back.png" title="step back" width="12px" height="12px" ></a>
+        <a id="play" class="control play"><img src="img/play.png" title="play" width="12px" height="12px" ></a>
+        <a id="stop" class="control stop"><img src="img/stop.png" title="stop" width="12px" height="12px" ></a>
+        <a id="forward" class="control next"><img src="img/next.png" title="step forward" width="12px" height="12px" ></a>
+		<br>
+		<p>(Animate map)</p>
         </div>
 		
         <div id="accordionLeft">
@@ -33,30 +55,51 @@
         	
 			<div class="info-col">				
 				<dl>
-				  <dt id="marriage">Marriage</dt>
-				  <dd> <div id="hex"></div>Laws and state regulations that define marriage, civil unions, and domestic partnerships. These laws vary greatly from constitutional bans on same sex relationships to full marriage equality.
+				  <dt id="marriage">Marriage<span style="float:right; padding-right:4px; color:#545454;">></span></dt>
+				  <dd> <span class="legendL">-   State Laws Supporting LBGT Rights   +</span>
+                   <span id="hexCenter">  <span id="hex"></span><span id="noData1"></span></span>
+                  <p class="legendL">(Hover over cells for additional information)</p>
+                  Laws and state regulations that define marriage, civil unions, and domestic partnerships. These laws vary greatly from constitutional bans on same sex relationships to full marriage equality.
 
 
 
 </dd>
-				  <dt id="adoption">Adoption</dt>
-				  <dd> <div id="hex2"></div>
+				  <dt id="adoption">Adoption<span style="float:right; padding-right:4px;color:#545454;">></span></dt>
+				  <dd> 
+                  <span class="legendL">-   State Laws Supporting LBGT Rights   +</span>
+                   <span id="hexCenter">  <span id="hex2"></span><span id="noData2"></span></span>
+                  <p class="legendL">(Hover over cells for additional information)</p>
 				  Adoption laws vary widely between states, from prohibiting adoption of a child to an LGBT parent to allowing both names of a same sex couple on the birth certificate of their child.  Laws regarding adoption also affect single parent adopters and unmarried opposite sex couples.
 
 
 
 
 </dd>
-				  <dt id="housing">Housing</dt>
-				  <dd> <div id="hex3"> </div>Laws that address discrimination in the housing industry, both in renting and owning property, based on sexual orientation and gender identity.
+				  <dt id="housing">Housing<span style="float:right; padding-right:4px;color:#545454;">></span></dt>
+				  <dd><span class="legendL">-   State Laws Supporting LBGT Rights   +</span> 
+                    <span id="hexCenter"> <span id="hex3"> </span><span id="noData3"></span></span>
+                   <p class="legendL">(Hover over cells for additional information)</p>
+                  Laws that address discrimination in the housing industry, both in renting and owning property, based on sexual orientation and gender identity.
 
 </dd>
-				  <dt id="hate_crimes">Hate Crimes</dt>
-				  <dd>  <div id="hex5"></div> Laws that protect against crimes that are motivated by animosity against a protected class.   While some states have no hate crime laws, the majority of states do have at least some form of hate crime protection. LGBT-specific hate crime protection laws are a more recent development and include laws that provide protection for sexual orientation and gender identity. </dd>
-				  <dt id="hospital">Hospital Visitation</dt>
-				  <dd><div id="hex6"></div>Laws that restrict or permit same sex partners to visit one another in the hospital. New regulations were enacted under President Obama's administration in 2011 that required Medicare or Medicaid accepting-hospitals to allow patients to choose who may have visitation rights, as well as who can make medical decisions on their behalf. In these cases, patients cannot be discriminated against based on sexual orientation or gender identity.</dd>
-				  <dt id="employment">Employment</dt>
-				  <dd><div id="hex4"></div>Laws that address discriminatory practices in the work place. LGBT employment laws protect for sexual orientation and gender identity.
+				  <dt id="hate_crimes">Hate Crimes<span style="float:right; padding-right:4px;color:#545454;">></span></dt>
+				  <dd> 
+                  <span class="legendL">-   State Laws Supporting LBGT Rights   +</span>
+                 <span id="hexCenter">  <span id="hex5"></span><span id="noData4"></span></span>
+                    <p class="legendL">(Hover over cells for additional information)</p>
+                   
+                   Laws that protect against crimes that are motivated by animosity against a protected class.   While some states have no hate crime laws, the majority of states do have at least some form of hate crime protection. LGBT-specific hate crime protection laws are a more recent development and include laws that provide protection for sexual orientation and gender identity. </dd>
+				  <dt id="hospital">Hospital Visitation<span style="float:right; padding-right:4px;color:#545454;">></span></dt>
+				  <dd>
+                  <span class="legendL">-   State Laws Supporting LBGT Rights   +</span>
+                  <span id="hexCenter">   <span id="hex6"></span> <span id="noData5"></span></span>
+                   <p class="legendL">(Hover over cells for additional information)</p>
+                  Laws that restrict or permit same sex partners to visit one another in the hospital. New regulations were enacted under President Obama's administration in 2011 that required Medicare or Medicaid accepting-hospitals to allow patients to choose who may have visitation rights, as well as who can make medical decisions on their behalf. In these cases, patients cannot be discriminated against based on sexual orientation or gender identity.</dd>
+				  <dt id="employment">Employment<span style="float:right; padding-right:4px;color:#545454;">></span></dt>
+				  <dd><span class="legendL">-   State Laws Supporting LBGT Rights   +</span>
+                    <span id="hexCenter"> <span id="hex4"></span><span id="noData6"></span></span>
+                   <p class="legendL">(Hover over cells for additional information)</p>
+                  Laws that address discriminatory practices in the work place. LGBT employment laws protect for sexual orientation and gender identity.
 
 </dd>
 				</dl>
@@ -65,35 +108,128 @@
 		</div>
 		<div id="chart"></div>
 		<div id="timeline"></div>
+		<div id="timelineText">
+			<h1>The Years Laws Changed (Click on year to update map)</h1>
+			<p></p>
+		</div>
+    
+      
+        
 		<div id="matrix">
-			<h1 class="intro">The Longevity of Laws -   <span style="font-weight:500"> A historical look at state laws over the last fifty years</h1>
+			<h1 class="intro">The Longevity of Laws -  <span style="font-weight:500; color: #545454" > A historical look at how long state laws remain in effect.</span> 
+</h1>   
+<span id="indexLWrapper"><p> <span id="indexL"></span>: State Laws ranging from those that restrict to those that promote LGBT rights (hover over cells for more details)</p> 
+</span>
+<span id="secondL">State Laws:  <span style="font-weight:bold">-  </span><span id="hexL"></span><span style="font-weight:bold">+</span><span style="padding-left:20px">No Laws or unavailible data:</span><span id="noDataL"></span></span>
+             <div id="chartLegend">
+             </div>
             </div>
+           
 		<div id="footer">
         <h1 class="intro">About This Map</h1><p>"Fifty Years of Change" documents the laws the United States has passed in the half-century that both restrict and extend LGBT rights. Over the last fifty years, there has been a marked increase in the sheer quantity of legislation that deals with LGBT rights. The spikes in the number of LGBT-related laws are sometimes grouped in time by the fact that they restrict rights for LGBT individuals, while at other times the spikes consist mostly of laws that protect and extend LBGT rights. </p> 
 <p>
 By looking at LBGT rights through time one cannot deny that a fundamental conversation is currently underway in our country, and has been exponentially growing to this point. So why document the last fifty years now? The Supreme Court has recently heard two cases, Prop 8 and DOMA, and are expected to announce their decisions on these cases in early June of 2013.  These cases will have a significant impact on both state and federal laws, so we believe it is  important to review our nation's journey to this critical juncture for LGBT civil rights.</p>
-        <p>Published: May 17, 2013</p><p>Created By: Erin Hamilton, Rashauna Mead, and Vanessa Knoppke-Wetzel</p>
-        <p>Sources: Freedom to Marry, Human Rights Campaign, Lexis Nexis, Movement Advancement Project, National Conference of State Legislatures, Pew Research Center, West Law</p></div>
+        
+		<p>Updated: June 3, 2013</p><p>Created By: <a href="http://www.erinhamilton.me" target="_blank">Erin Hamilton</a>, <a href="http://www.rashaunamead.com" target="_blank">Rashauna Mead</a>, and <a href="https://mywebspace.wisc.edu/vknoppkewetz/portfolio/index.html" target="_blank">Vanessa Knoppke-Wetzel</a>.</p>
+        <p>Sources: Freedom to Marry, Human Rights Campaign, Lexis Nexis, Movement Advancement Project, National Conference of State Legislatures, Pew Research Center, West Law</p>
+		<p>Disclaimer: The data displayed on this page is our interpretation and categorization of many state laws. We make no claim that this is exact state law wording. If you find an error in any of our data or have suggestions for improvements, please email us at <a href="mailto:50yearsofchange@gmail.com">50yearsofchange@gmail.com</a></p></div>
 	</div>
     </div>
+	
+	
 
+	
 	<!--JavaScript Libraries-->
-	<script src="js/jquery.min.v1.9.1.js"></script>
-	<script src="js/d3.v3.min.js"></script>
-	<script src="js/topojson.js"></script>
-	<script src="js/queue.min.js"></script>
-	<script src="js/jquery-timer.js"></script>
+	<script src="lib/jquery.min.v1.9.1.js"></script>
+	<script src="lib/d3.v3.min.js"></script>
+	<script src="lib/topojson.js"></script>
+	<script src="lib/queue.min.js"></script>
+	<script src="lib/jquery-timer.js"></script>
+	<script src="lib/jquery.easing.1.3.js"></script>
+   	<script src="lib/jquery.plusanchor.js"></script>
+	
+	
+	<!--Browser Detection for IE-->
+	<script>
+		
+		$('body').ajaxStart(function() {
+			$(this).css({'cursor':'wait'})
+		}).ajaxStop(function() {
+			$(this).css({'cursor':'auto'})
+		});
+		
+		var isIE;
+		(function ($) {
+			"use strict";
+
+			// Detecting IE
+			var browser;
+			var oldIE;
+			if ($('html').is('.ie6, .ie7, .ie8')) {
+				isIE = true; 
+				alert("This site will only function in Internet Explorer Version 9 and above. "+
+				"To view, please update your version of Internet Explorer. This site is best viewed in Chrome or Firefox.");
+			} else if ($('html').is('.ie9')){
+				isIE = true;
+			} else {
+				isIE = false;
+			}
+
+			}(jQuery));
+		</script>
+		
+		<!-- Google Analytics Code -->
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-41318977-1', '50yearsofchange.com');
+		  ga('send', 'pageview');
+
+		</script>
 	
 	
 	<!--Main Scripts-->
 	<script src="js/map.js"></script>
 	<script src="js/accordian.js"></script>
 	<script src="js/hex.js"></script>
-	<!-- <script src="js/legend.js"></script> -->
 	<script src="js/timeline.js"></script>
 	<script src="js/chart.js"></script>
 	<script src="js/trulia.js"></script>
 	<script src="js/main.js"></script>
+   
+ 
+    <!-- Code to transition the page smoothly to the about section -->
+    <script type="text/javascript">
+		jQuery(document).ready(function($){
+			$('body').plusAnchor({
+				easing: 'easeInOutExpo',
+				offsetTop: -20,
+				speed: 1000,
+				onInit: function( base ) {
+
+					if ( base.initHash != '' && $(base.initHash).length > 0 ) {
+						window.location.hash = 'hash_' + base.initHash.substring(1);
+						window.scrollTo(0, 0);
+		
+						$(window).load( function() {
+		
+							timer = setTimeout(function() {
+								$(base.scrollEl).animate({
+									scrollTop: $( base.initHash ).offset().top
+								}, base.options.speed, base.options.easing);
+							}, 1400); // setTimeout
+		
+						}); // window.load
+					}; // if window.location.hash
+		
+				} // onInit
+			});
+		});
+	</script>
+
 	
 </body>
 </html>
