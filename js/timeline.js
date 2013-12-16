@@ -112,7 +112,7 @@ var timeInterval = 1000; //intial animation speed in miliseconds
 			}
 		});
 			
-	var yearTitle = d3.select("#time") 
+	var yearTitle = d3.select("#timerControls") 
 		.select("h1")
 		.html(yr);
 		
