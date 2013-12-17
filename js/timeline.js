@@ -74,8 +74,8 @@ var timeInterval = 1000; //intial animation speed in miliseconds
 				}
 			})
 			.on("click", function(){ //click listener
-				console.log(this);
 				year = d.getFullYear();
+				timestamp = years.indexOf(year.toString());
 				sequence(year)	
 			});
 		});	
@@ -115,7 +115,7 @@ var timeInterval = 1000; //intial animation speed in miliseconds
 	var yearTitle = d3.select("#timerControls") 
 		.select("h1")
 		.html(yr);
-		
+	
 	year = yr;
  }
  

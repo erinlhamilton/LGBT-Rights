@@ -341,7 +341,6 @@ function colorLuminance(hex, lum){
  */ 
 //the no data cell
 function getKey(handle){
-	console.log(handle);
 	if(handle === '#F1F1F1'){
 		var infolabel = d3.select("#accordion")
 			.append("div")

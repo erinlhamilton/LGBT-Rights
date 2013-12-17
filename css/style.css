@@ -89,11 +89,15 @@ p.title{
 }
 
 #socialMedia{
+	position: relative;
 	width: 960px;
 	padding:0;
 	margin:0;
 	padding-top: 0px;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
 	float: right;
+	z-index: 1000;
 }
 
 #matrix{
@@ -171,12 +175,6 @@ p.title{
 	
 }
 
-/* #timerControls img{
-    display: inline;
-	float: left;
-	margin: 0;
-	padding: 0;
-} */
 
 #timerControls p{
 	/* display:block; */
@@ -186,12 +184,6 @@ p.title{
 	padding: 0;
 	padding-top: 1px;
 }
-/* #timerControls img:hover{
-  opacity:.89;
-  cursor: pointer;
-  
-} */
-
 
 #controls{
 	position: absolute;
@@ -209,8 +201,6 @@ p.title{
 	opacity:1;
 	cursor: pointer;	
 }
-/*changed*/	
-
 #secondL{
 	margin-left:auto;
 	margin-right:auto;
@@ -305,8 +295,6 @@ background-color: #cccccc;
 #marriage.current, #adoption.current, #housing.current, #hate_crimes.current, #hospital.current, #employment.current{
 background-color: #cccccc;	
 }
-
-}
  #indexLWrapper {
 	margin-left:auto;
 	margin-right:auto;
@@ -376,7 +364,8 @@ background-color: #cccccc;
 
 }
 #accordion{
-	margin-top: 10px;
+	top: 10px;
+	margin: 0;
 	width: 400px;
 	overflow: hidden;
 	height: 100%;
@@ -418,7 +407,7 @@ dd {
 	padding: 10px; 
 	color: #545454; 
 	border-bottom: thin solid #D4D4D4;
-	font-size:13pt;
+	font-size:12pt;
 	font-weight:normal;
 	
 }

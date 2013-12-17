@@ -8,7 +8,7 @@
 // Author:          Rashauna Mead
 // Author:          Vanessa Knoppke-Wetzel
 //
-// Last Updated:    May 11, 2013
+// Last Updated:    December 16, 2013
 //
 // Description:     Main JS code for LGBT rights map. Calls all other js files.
 //                  Page visualizes the changing positive and negative legislation
@@ -24,6 +24,7 @@ var Index;//global Index.json variable.
 var timestamp = 50;//2013. The start year for years array. Used for timer and iterations.
 var onHover; //have to set this to variable different depending on browser for .on events
 var outHover; //have to set this to variable different depending on browser for .on events
+var isIE;
 
 
 /**Key values in Index JSON, which contain colors used to fill states*/
@@ -49,27 +50,28 @@ var indexTable = {
 	"SOP": "#92c0ff", //Same Sex Orientation Employment Protection
 	"SOPGIP": "#6889cb" , //Gender Identity Employment Protection + Same Sex Protection
 	
-	//employment ["#92c0ff", "#6889cb"]
+	//employment & hate crime ["#92c0ff", "#6889cb"]
 	
-	/*Hate Crimes*/ //5
+	/*Hate Crimes*/ //2
 	// "GI": "#36476a", //Gender Identity Hate Crime Law
-	"SOGI": "#3e527a", //Same Sex Orientation & Gender Idenity Hate Crime Laws
-	"SO": "#536ea2", //Same Sex Orientation Hate Crime Law
-	"NHCL": "#6889cb", //No Hate Crime Laws At All For the State
-	"NSG": "#7da4f4", //No Sexual Orientation or Gender Idenity Hate Crime Laws
-	
-	//hate colors ["#799feb", "#6889cb", "#5773ab", "#475d8a", "#36476a"]
+	"SOGI": "#6889cb", //Same Sex Orientation & Gender Idenity Hate Crime Laws
+	"SO": "#92c0ff", //Same Sex Orientation Hate Crime Law
+	// "NHCL": "#84aeff", //No Hate Crime Laws At All For the State
 
-	/*Hospital Visitation*/ //3
-	"HLI": "#4c6495", //Law Inclusive of same-sex couples for medical decisions
-	"HLR": "#6889cb", //Limited recognition of same-sex couples for medical decisions
-	"HLS": "#84aeff", //Same-sex couples treated as legal strangers for medical decisions
 	
-	//hospital and housing colors["#84aeff", "#6889cb", "#4c6495"]
+	
+
+	/*Hospital Visitation*/ //4 ["#7da4f4", "#6889cb", "#536ea2", "#3e527a"]
+	"HLI": "#3e527a", //Law Inclusive of same-sex couples for medical decisions
+	"HLR": "#536ea2", //Limited recognition of same-sex couples for medical decisions
+	"HLS": "#6889cb", //Same-sex couples treated as legal strangers for medical decisions
+	"HCA": "#7da4f4",
+	
+	// hate crime, and housing colors["#84aeff", "#6889cb", "#4c6495"]
 	
 	/*Housing*/ //3
-	"BSO": "#6889cb", //Bans ONLY sexual orientation housing discrimination
-	"BB": "#92c0ff", //bans sex orientation disc AND bans ID/ex discrim
+	"BSO": "#92c0ff", //Bans ONLY sexual orientation housing discrimination
+	"BB": "#6889cb", //bans sex orientation disc AND bans ID/ex discrim
 	
 	/*Marriage*/ //14
 	"ML": "#2d3b57", //Marriage Legal
@@ -164,6 +166,7 @@ var states = {
 function initialize(){
 	$("#stop").hide();//onload, hide the stop button.
 	//if browser is IE, must use mouseenter/leave for hover events, all other browsers use mouseover/mouseout.
+	isIE = getIsIE();
 	if (isIE){
 		onHover = 'mouseenter';
 		outHover = 'mouseleave';
@@ -295,18 +298,18 @@ function lawCodeLabel(code){
 		case"NHCL": 
 			return "There are currently no laws for protection against hate crimes in this state."
 		break;
-		case"NSG": 
-			return "There are currently no laws that protect sexual orientation or gender identity against hate crimes."
-		break;
 		/*Hospital Visitation*/
 		case"HLI": 
-			return "Law inclusive of same-sex couples for medical decisions and hospital visitation."
+			return "Hospital visitation rights extended to same-sex couples through marriage or relationship recognition laws."
 		break;
 		case "HLR": 
-			return "Limited recognition of same-sex couples for medical decisions and hospital visitation."
+			return "Hospital visitation rights extended to same-sex couples through provision as part of limited relationship recognition law."
 		break;
 		case "HLS": 
-			return "Same-sex couples treated as legal strangers for medical decisions and hospital visiation."
+			return "Hospital visitation rights extended through a designated visitor statute."
+		break;
+		case "HCA": 
+			return "Hospital visitation rights extended to a designated healthcare agent by law."
 		break;
 		/*Housing*/
 		case "BSO": 
@@ -379,12 +382,14 @@ function moveLabel() {
 
 }
 
+/**
+ * Detects if a browser is Internet Explorer and returns true or false.
+ */
+function getIsIE() { return ((navigator.appName == 'Microsoft Internet Explorer') || ((navigator.appName == 'Netscape') && (new RegExp("Trident/.*rv:([0-9]{1,}[\.0-9]{0,})").exec(navigator.userAgent) != null))); }
+
 
 /**
  * Load the JS code after page has loaded. Calls initialize function at top.
  */
  
- //window.onload = initialize();
 $(document).ready(initialize());
-
-
